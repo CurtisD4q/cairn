@@ -1,0 +1,11 @@
+% This is the RIPE Database query service.
+inetnum:        193.0.0.0 - 193.0.7.255
+netname:        RIPE-NCC
+descr:          RIPE Network Coordination Centre
+country:        NL
+org:            ORG-RIEN1-RIPE
+status:         ASSIGNED PA
+
+organisation:   ORG-RIEN1-RIPE
+org-name:       Reseaux IP Europeens Network Coordination Centre (RIPE NCC)
+country:        NL

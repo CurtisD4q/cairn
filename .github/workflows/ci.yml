@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  GOPRIVATE: github.com/CurtisD4q/*
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      # Mint-Interfaces is a private repository. Add a read-only token for it
+      # as the repository secret MINT_READ_TOKEN.
+      - name: Let Go read Mint-Interfaces
+        run: git config --global url."https://x-access-token:${{ secrets.MINT_READ_TOKEN }}@github.com/".insteadOf "https://github.com/"
+      - name: Install the tools the live tests run
+        run: sudo apt-get update && sudo apt-get install -y nmap dnsutils whois traceroute iproute2 iputils-ping curl
+      - run: go mod tidy
+      - run: test -z "$(gofmt -l .)"
+      - run: go vet ./...
+      - run: go test ./...
+
+  emacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y emacs-nox
+      - run: emacs --batch -Q -L emacs --eval '(setq byte-compile-error-on-warn t)' -f batch-byte-compile emacs/cairn.el
+      - run: emacs --batch -Q -L emacs -l emacs/cairn-tests.el -f ert-run-tests-batch-and-exit

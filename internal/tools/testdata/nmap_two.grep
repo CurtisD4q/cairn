@@ -1,0 +1,6 @@
+# Nmap 7.94SVN scan initiated as: nmap -oG - 10.0.0.0/30
+Host: 10.0.0.1 (gw.lab.test)	Status: Up
+Host: 10.0.0.1 (gw.lab.test)	Ports: 22/open/tcp//ssh//OpenSSH 9.6p1 Ubuntu 3ubuntu13.5 (Ubuntu Linux; protocol 2.0)/, 8080/open/tcp//http-proxy//Squid http proxy 5.7/	Ignored State: closed (998)
+Host: 10.0.0.2 ()	Status: Up
+Host: 10.0.0.2 ()	Ports: 8443/open/tcp//https-alt///	Ignored State: closed (999)
+# Nmap done: 4 IP addresses (2 hosts up) scanned in 2.10 seconds

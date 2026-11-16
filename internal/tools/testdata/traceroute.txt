@@ -1,0 +1,5 @@
+traceroute to example.com (93.184.216.34), 5 hops max, 60 byte packets
+ 1  192.168.1.1  0.451 ms
+ 2  10.20.0.1  8.904 ms
+ 3  *
+ 4  93.184.216.34  21.500 ms

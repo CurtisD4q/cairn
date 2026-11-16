@@ -1,0 +1,6 @@
+tcp LISTEN 0      128      0.0.0.0:2024  0.0.0.0:*
+tcp LISTEN 0      512    127.0.0.1:43593 0.0.0.0:*
+tcp LISTEN 0      4096   127.0.0.53%lo:53 0.0.0.0:*    users:(("systemd-resolve",pid=812,fd=14))
+tcp LISTEN 0      5      [::]:8080 [::]:*
+udp UNCONN 0      0      *:5353  *:*
+tcp ESTAB  0      0      10.0.0.5:22 10.0.0.9:51000

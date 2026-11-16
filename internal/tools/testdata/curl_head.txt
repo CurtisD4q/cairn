@@ -1,0 +1,11 @@
+HTTP/1.1 301 Moved Permanently
+Server: nginx
+Location: https://example.com/login
+Content-Length: 162
+
+HTTP/2 200 
+content-type: text/html; charset=UTF-8
+strict-transport-security: max-age=31536000
+server: nginx
+set-cookie: a=b; HttpOnly
+
