@@ -1,6 +1,6 @@
 package ui
 
-import "github.com/CurtisD4q/Mint-Interfaces/mint"
+import "github.com/CurtisD4q/mint-kit"
 
 // guide is the short orientation: a few lines, in plain words.
 func (a *App) guide() *mint.Screen {

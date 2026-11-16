@@ -3,8 +3,8 @@ package ui
 import (
 	"os"
 
-	"github.com/CurtisD4q/Mint-Interfaces/mint"
-	"github.com/CurtisD4q/Mint-Interfaces/mint/theme"
+	"github.com/CurtisD4q/mint-kit"
+	"github.com/CurtisD4q/mint-kit/theme"
 )
 
 // cairnSpec is Cairn's own look: slate and sea-glass, with amber kept for

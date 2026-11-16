@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/CurtisD4q/Mint-Interfaces/mint"
-	"github.com/CurtisD4q/Mint-Interfaces/mint/runner"
+	"github.com/CurtisD4q/mint-kit"
+	"github.com/CurtisD4q/mint-kit/runner"
 
 	"github.com/CurtisD4q/cairn/internal/store"
 	"github.com/CurtisD4q/cairn/internal/values"

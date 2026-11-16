@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/CurtisD4q/Mint-Interfaces/mint"
+	"github.com/CurtisD4q/mint-kit"
 )
 
 // caseScreen is where the case is edited: its targets, the scope, notes, and

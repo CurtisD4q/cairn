@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/CurtisD4q/Mint-Interfaces/mint/runner"
+	"github.com/CurtisD4q/mint-kit/runner"
 
 	"github.com/CurtisD4q/cairn/internal/scope"
 	"github.com/CurtisD4q/cairn/internal/store"

@@ -2,7 +2,7 @@
 
 A terminal workbench for security work. Keep a **case**, say what you are **allowed to test**, run the everyday tools from one place, and **send what one finds to the next**, so you stop retyping targets and hopping between windows.
 
-Built on [Mint-Interfaces](https://github.com/CurtisD4q/mint-interfaces) (the terminal UI library), with its own look and layout. It runs in any modern terminal and inside Emacs.
+Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI library), with its own look and layout. It runs in any modern terminal and inside Emacs.
 
 ```
 ╭─ ◈ Workbench ─────────────────────────────────────────────────── Cairn ─╮
@@ -39,18 +39,18 @@ Tools that are not installed are listed as such, with the package name for Debia
 
 ## Install
 
-Cairn needs Go 1.21 or newer. It depends on the Mint-Interfaces library, which is a private repository, so tell Go to fetch it directly:
+Cairn needs Go 1.21 or newer. It depends on the mint-kit library, which is a private repository, so tell Go to fetch it directly:
 
 ```
 git clone https://github.com/CurtisD4q/cairn
 cd cairn
 export GOPRIVATE='github.com/CurtisD4q/*'
-go mod tidy          # first time only: fetches Mint-Interfaces and writes go.sum
+go mod tidy          # first time only: fetches mint-kit and writes go.sum
 go build -o cairn ./cmd/cairn
 ./cairn
 ```
 
-Git must be able to read the Mint-Interfaces repository (an SSH key or `gh auth login`). Put the binary anywhere on your `PATH`.
+Git must be able to read the mint-kit repository (an SSH key or `gh auth login`). Put the binary anywhere on your `PATH`.
 
 ## Using it
 
@@ -86,7 +86,7 @@ Not yet done: it has **not been tested with a screen reader or braille display**
 ## Development
 
 ```
-go work init . ../mint-interfaces   # to build against a local checkout; go.work is git-ignored
+go work init . ../mint-kit   # to build against a local checkout; go.work is git-ignored
 go vet ./... && go test ./...
 emacs --batch -L emacs -l emacs/cairn-tests.el -f ert-run-tests-batch-and-exit
 ```
@@ -95,4 +95,4 @@ Tests include live runs of `ss`, `curl`, `ping`, `traceroute` and `nmap` against
 
 ## Licence
 
-Apache-2.0, as Mint-Interfaces.
+Apache-2.0, as mint-kit.

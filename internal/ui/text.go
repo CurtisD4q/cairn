@@ -5,7 +5,7 @@ import (
 	"github.com/CurtisD4q/cairn/internal/values"
 	"strings"
 
-	"github.com/CurtisD4q/Mint-Interfaces/mint"
+	"github.com/CurtisD4q/mint-kit"
 )
 
 // wrap breaks text into lines of at most width cells, at spaces.
