@@ -1,4 +1,4 @@
-;;; cairn.el --- Open Cairn, a security workbench, from Emacs -*- lexical-binding: t; -*-
+;;; cairn.el --- Open cairn, a security workbench, from Emacs -*- lexical-binding: t; -*-
 
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.1"))
@@ -6,37 +6,37 @@
 
 ;;; Commentary:
 ;;
-;; M-x cairn opens Cairn, the terminal workbench for security work.
+;; M-x cairn opens cairn, the terminal workbench for security work.
 ;;
-;; If mint.el (from Mint-Interfaces) is installed, Cairn is started with
+;; If mint.el (from Mint-Interfaces) is installed, cairn is started with
 ;; it, so you get its handover mode in terminal Emacs, Emacs keys, and
-;; colours that match your theme.  Without mint.el, Cairn runs in a `term'
+;; colours that match your theme.  Without mint.el, cairn runs in a `term'
 ;; buffer with Emacs keys, and nothing else needs installing.
 ;;
 ;; M-x cairn-cases opens the folder of your cases in Dired.  Reports saved
-;; from Cairn are Markdown files there, and open like any other file.
+;; from cairn are Markdown files there, and open like any other file.
 
 ;;; Code:
 
 (require 'term)
 
 (defgroup cairn nil
-  "Open Cairn from Emacs."
+  "Open cairn from Emacs."
   :group 'tools
   :prefix "cairn-")
 
 (defcustom cairn-program "cairn"
-  "The Cairn program: a name on `exec-path', or a path."
+  "The cairn program: a name on `exec-path', or a path."
   :type 'string)
 
 (defcustom cairn-key-profile "emacs"
-  "Keys Cairn uses when it runs in a `term' buffer, set as MINT_KEYS.
+  "Keys cairn uses when it runs in a `term' buffer, set as MINT_KEYS.
 One of \"emacs\", \"vim\" or \"default\".  With mint.el installed, its own
 `mint-key-profile' applies instead."
   :type '(choice (const "emacs") (const "vim") (const "default")))
 
 (defcustom cairn-home nil
-  "Folder where Cairn keeps its cases, or nil for its usual place.
+  "Folder where cairn keeps its cases, or nil for its usual place.
 Set as CAIRN_HOME for the programs Emacs starts."
   :type '(choice (const :tag "Usual place" nil) directory))
 
@@ -45,11 +45,11 @@ Set as CAIRN_HOME for the programs Emacs starts."
   (let ((expanded (expand-file-name cairn-program)))
     (cond ((and (file-executable-p expanded) (not (file-directory-p expanded))) expanded)
           ((executable-find cairn-program))
-          (t (user-error "Cannot find the program \"%s\".  Install Cairn, or set `cairn-program'"
+          (t (user-error "Cannot find the program \"%s\".  Install cairn, or set `cairn-program'"
                          cairn-program)))))
 
 (defun cairn--environment ()
-  "Environment entries Emacs gives Cairn."
+  "Environment entries Emacs gives cairn."
   (delq nil
         (list (and cairn-home (format "CAIRN_HOME=%s" (expand-file-name cairn-home)))
               (format "MINT_KEYS=%s" cairn-key-profile)
@@ -58,7 +58,7 @@ Set as CAIRN_HOME for the programs Emacs starts."
 
 ;;;###autoload
 (defun cairn ()
-  "Open Cairn."
+  "Open cairn."
   (interactive)
   (let ((exe (cairn--executable))
         (process-environment (append (and cairn-home (list (format "CAIRN_HOME=%s" (expand-file-name cairn-home))))
@@ -78,7 +78,7 @@ Set as CAIRN_HOME for the programs Emacs starts."
       (term-char-mode))))
 
 (defun cairn--cases-directory ()
-  "The folder holding Cairn's cases."
+  "The folder holding cairn's cases."
   (expand-file-name
    "cases"
    (or cairn-home
@@ -89,11 +89,11 @@ Set as CAIRN_HOME for the programs Emacs starts."
 
 ;;;###autoload
 (defun cairn-cases ()
-  "Open the folder of Cairn's cases and saved reports in Dired."
+  "Open the folder of cairn's cases and saved reports in Dired."
   (interactive)
   (let ((dir (cairn--cases-directory)))
     (unless (file-directory-p dir)
-      (user-error "No cases yet.  Open Cairn first with M-x cairn"))
+      (user-error "No cases yet.  Open cairn first with M-x cairn"))
     (dired dir)))
 
 (provide 'cairn)

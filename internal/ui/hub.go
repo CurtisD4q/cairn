@@ -31,7 +31,7 @@ func (a *App) hub() *mint.Screen {
 
 func (a *App) banner() string {
 	if _, _, _, rules, _ := a.snapshot(); len(rules) == 0 {
-		return "No scope set: Cairn will ask before it tests anything. Open Case to set one."
+		return "No scope set: cairn will ask before it tests anything. Open Case to set one."
 	}
 	return ""
 }

@@ -27,7 +27,7 @@ type Case struct {
 	Notes   string    `json:"notes"`
 }
 
-// Entry is one line of the audit log: one command Cairn ran.
+// Entry is one line of the audit log: one command cairn ran.
 type Entry struct {
 	Time     time.Time `json:"time"`
 	Tool     string    `json:"tool"`
@@ -62,7 +62,7 @@ func CleanName(s string) (string, error) {
 	return s, nil
 }
 
-// Dir is where Cairn keeps its files: $CAIRN_HOME, else the XDG data
+// Dir is where cairn keeps its files: $CAIRN_HOME, else the XDG data
 // directory.
 func Dir() string {
 	if d := os.Getenv("CAIRN_HOME"); d != "" {

@@ -40,7 +40,7 @@ func (a *App) startInput(t tools.Tool) tools.Input {
 
 func (a *App) openTool(c *mint.Ctx, t tools.Tool, in tools.Input) {
 	if !t.Available() {
-		msg := "Cairn runs the program '" + t.Bin + "', and it was not found on this computer.\n\nInstall it with your package manager, then open this again."
+		msg := "cairn runs the program '" + t.Bin + "', and it was not found on this computer.\n\nInstall it with your package manager, then open this again."
 		if p := debPackage[t.Bin]; p != "" {
 			msg += "\n\nOn Debian or Ubuntu:  sudo apt install " + p
 		}
@@ -279,7 +279,7 @@ func (s *session) aboutSections() []mint.Section {
 	rows := paragraph(mint.StyleBody, s.t.Plain, 0.45)
 	if s.t.Active {
 		rows = append(rows, mint.Spacer())
-		rows = append(rows, paragraph(mint.StyleCaption, "This sends traffic to the target, so Cairn checks your scope first.", 0.45)...)
+		rows = append(rows, paragraph(mint.StyleCaption, "This sends traffic to the target, so cairn checks your scope first.", 0.45)...)
 	}
 	secs := []mint.Section{{Rows: rows}}
 	if len(s.t.Options) > 0 {
@@ -394,12 +394,12 @@ func (s *session) start(c *mint.Ctx) {
 	s.override = false
 	switch gateFor(checked, v.Status) {
 	case askYesNo:
-		if !c.Confirm("No scope set", "This sends traffic to "+in.Target.Text+", and you have not said what you are allowed to test.\n\nCairn will log this run. Continue?") {
+		if !c.Confirm("No scope set", "This sends traffic to "+in.Target.Text+", and you have not said what you are allowed to test.\n\ncairn will log this run. Continue?") {
 			return
 		}
 		s.override = true
 	case askToType:
-		if !c.TypeToConfirm("Outside your scope", v.Why+"\n\nIf you are sure you may test it, type the target to go ahead. Cairn will log that you did.", in.Target.Text) {
+		if !c.TypeToConfirm("Outside your scope", v.Why+"\n\nIf you are sure you may test it, type the target to go ahead. cairn will log that you did.", in.Target.Text) {
 			return
 		}
 		s.override = true

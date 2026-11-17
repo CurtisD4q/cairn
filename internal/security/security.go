@@ -1,4 +1,4 @@
-// Package security is what Cairn adds to the Mint packs for security work:
+// Package security is what cairn adds to the Mint packs for security work:
 // Lookout checks and symptoms for "has someone got in?", Conduit hunts
 // through the logs, and a Conduit filter that picks addresses out of log
 // lines. All of it is data on top of the packs, and all of it only reads.
@@ -33,7 +33,7 @@ var sshLog = []string{"journalctl", "-u", "ssh", "-u", "sshd", "--since", "-24h"
 // failedLogin matches the lines ssh writes for a failed or unknown login.
 const failedLogin = "Failed password|Invalid user|authentication failure"
 
-// Checks are Cairn's security checks for Lookout.
+// Checks are cairn's security checks for Lookout.
 func Checks() []lookout.Check {
 	return []lookout.Check{
 		{ID: "failed-logins", Title: "Failed logins", Plain: "How many times someone failed to log in over ssh in the last day.",
@@ -64,7 +64,7 @@ func Checks() []lookout.Check {
 	}
 }
 
-// Symptoms are Cairn's security symptoms for Lookout.
+// Symptoms are cairn's security symptoms for Lookout.
 func Symptoms() []lookout.Symptom {
 	return []lookout.Symptom{
 		{ID: "intrusion", Title: "I think someone got in", Plain: "Looks at failed logins, accounts with full power, recently changed login keys, administrator commands and recent errors.",
@@ -74,7 +74,7 @@ func Symptoms() []lookout.Symptom {
 	}
 }
 
-// Add puts Cairn's checks and symptoms into a Lookout, symptoms first.
+// Add puts cairn's checks and symptoms into a Lookout, symptoms first.
 func Add(l *lookout.Lookout) {
 	l.Checks = append(l.Checks, Checks()...)
 	l.Symptoms = append(Symptoms(), l.Symptoms...)
@@ -222,13 +222,13 @@ var AddressesFilter = conduit.Filter{ID: "addresses", Label: "Pick out addresses
 		return []action.Command{{Argv: []string{"grep", "-E", "-o", "--", `([0-9]{1,3}\.){3}[0-9]{1,3}`}, OKExits: []int{1}}}, nil
 	}}
 
-// Sources are the logs Cairn's hunts start from.
+// Sources are the logs cairn's hunts start from.
 var Sources = []conduit.SourceProgram{
 	{Label: "The ssh log (last day)", Argv: sshLog, Plain: "Every message from the ssh server in the last day."},
 	{Label: "Administrator commands (last day)", Argv: []string{"journalctl", "_COMM=sudo", "--since", "-24h", "--no-pager", "-o", "cat"}, Plain: "Every sudo command in the last day."},
 }
 
-// Add puts Cairn's filter and sources into a Conduit.
+// Add puts cairn's filter and sources into a Conduit.
 func AddHunting(c *conduit.Conduit) {
 	c.Filters = append(c.Filters, AddressesFilter)
 	c.Sources = append(Sources, c.Sources...)
@@ -240,7 +240,7 @@ type Hunt struct {
 	Chain        conduit.Chain
 }
 
-// Hunts are Cairn's ready-made hunts.
+// Hunts are cairn's ready-made hunts.
 func Hunts() []Hunt {
 	return []Hunt{
 		{Title: "Failed logins by address", Plain: "Who has been trying to log in over ssh, most attempts first.",

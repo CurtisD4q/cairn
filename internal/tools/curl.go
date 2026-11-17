@@ -28,7 +28,7 @@ func Curl() Tool {
 				Plain: "Carries on even if the site's certificate is invalid. Useful in a test lab, risky anywhere else."},
 		},
 		Args: func(in Input) []string {
-			a := []string{"-sS", "-m", "10", "-A", "Cairn"}
+			a := []string{"-sS", "-m", "10", "-A", "cairn"}
 			if in.opt("method", "head") == "get" {
 				a = append(a, "-D", "-", "-o", "/dev/null")
 			} else {

@@ -16,7 +16,7 @@ func Ss() Tool {
 		Timeout: 15 * time.Second,
 		Options: []Option{
 			{ID: "programs", Label: "Show programs", Kind: Switch, Default: "off",
-				Plain: "Names the program behind each port. Other users' programs show only if you run Cairn as root."},
+				Plain: "Names the program behind each port. Other users' programs show only if you run cairn as root."},
 		},
 		Args: func(in Input) []string {
 			a := []string{"-H", "-tuln"}

@@ -1,9 +1,9 @@
 // Package programs finds the Mint apps made by Mint-Interfaces (mint-gen)
-// on this computer, so Cairn can list them in groups and run them.
+// on this computer, so cairn can list them in groups and run them.
 //
 // A Mint app is an executable whose name ends in "-mint" (nmap-mint,
 // tcpdump-mint) and that describes itself when run with --mint-info. Only
-// such files, in the folders below, are ever asked: Cairn does not run
+// such files, in the folders below, are ever asked: cairn does not run
 // arbitrary programs to find out what they are.
 package programs
 

@@ -2,7 +2,7 @@ package ui
 
 // The Programs page: every Mint app made by Mint-Interfaces on this
 // computer, in drop-down groups. Choose a program first, then where to
-// open it; Cairn hands it the terminal and takes it back when it ends.
+// open it; cairn hands it the terminal and takes it back when it ends.
 
 import (
 	"context"
@@ -128,7 +128,7 @@ func (a *App) openProgram(c *mint.Ctx, p programs.Program) {
 		if len(rules) > 0 {
 			scopeText = "This case's scope: " + strings.Join(rules, ", ") + "."
 		}
-		if !c.Confirm("Open "+p.Label()+"?", p.Label()+" sends traffic to the targets you give it. Cairn's scope check does not reach inside it, so check each target yourself.\n\n"+scopeText) {
+		if !c.Confirm("Open "+p.Label()+"?", p.Label()+" sends traffic to the targets you give it. cairn's scope check does not reach inside it, so check each target yourself.\n\n"+scopeText) {
 			return
 		}
 	}

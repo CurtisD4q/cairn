@@ -7,7 +7,7 @@ import (
 	"github.com/CurtisD4q/mint-kit/theme"
 )
 
-// cairnSpec is Cairn's own look: slate and sea-glass, with amber kept for
+// cairnSpec is cairn's own look: slate and sea-glass, with amber kept for
 // warnings so that it always means something.
 const cairnSpec = "accent=#5eead4,bright=#ccfbf1,text=#e2e8f0,muted=#94a3b8,on=#86efac,amber=#fbbf24,selbg=#134e4a,err=#fca5a5"
 

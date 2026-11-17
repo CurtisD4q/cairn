@@ -1,6 +1,6 @@
 package ui
 
-// Cairn's siblings: the Mint packs it is built with. Lookout looks for
+// cairn's siblings: the Mint packs it is built with. Lookout looks for
 // signs of trouble and intrusion, Conduit hunts through the logs, Bridge
 // keeps the machines a case works on, and Warden hardens this one. Every
 // action they take is written to the open case's audit log.
@@ -96,7 +96,7 @@ func (a *App) packItems() []mint.HomeItem {
 	return out
 }
 
-// huntScreen lists Cairn's ready-made hunts and an empty one.
+// huntScreen lists cairn's ready-made hunts and an empty one.
 func (a *App) huntScreen() *mint.Screen {
 	var rows []mint.Row
 	rows = append(rows, layouts.Paragraphs([]string{"Each hunt is a chain of steps that narrows the logs down to what matters, and shows how many lines each step keeps. Change any step, or start from nothing. Hunting only reads."}, 0.9)...)

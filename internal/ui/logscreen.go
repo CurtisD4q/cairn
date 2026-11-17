@@ -38,7 +38,7 @@ func (a *App) logScreen() *mint.Screen {
 	return &mint.Screen{
 		Icon: "≡", Title: "Audit log", Hints: " ↑↓ move   ⏎ details   b back   q quit ",
 		Sections: []mint.Section{{Rows: []mint.Row{
-			mint.Label(mint.StyleCaption, "Every command Cairn has run in this case, in the order they happened."),
+			mint.Label(mint.StyleCaption, "Every command cairn has run in this case, in the order they happened."),
 			table,
 		}}},
 	}

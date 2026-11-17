@@ -26,7 +26,7 @@ func TestChecksAreSafeAndComplete(t *testing.T) {
 	l := lookout.New(nil)
 	Add(l)
 	if l.Symptoms[0].ID != "intrusion" {
-		t.Fatal("Cairn's symptoms come first")
+		t.Fatal("cairn's symptoms come first")
 	}
 	for _, s := range l.Symptoms {
 		for _, id := range s.Checks {

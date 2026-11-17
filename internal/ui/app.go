@@ -1,4 +1,4 @@
-// Package ui is Cairn's terminal interface, built on the Mint library: the
+// Package ui is cairn's terminal interface, built on the Mint library: the
 // workbench, the case, one screen per tool, and the audit log.
 package ui
 
@@ -16,7 +16,7 @@ import (
 	"github.com/CurtisD4q/mint-tools/values"
 )
 
-// Version is Cairn's version.
+// Version is cairn's version.
 const Version = "0.3.0"
 
 // Limits keep a case file small and its screens quick.
@@ -220,7 +220,7 @@ func (a *App) Items() []mint.HomeItem {
 	}
 	items = append(items, a.packItems()...)
 	return append(items,
-		mint.HomeItem{Icon: "≡", Label: "Audit log", Desc: "Everything done in this case, by every part of Cairn", Open: a.logScreen},
+		mint.HomeItem{Icon: "≡", Label: "Audit log", Desc: "Everything done in this case, by every part of cairn", Open: a.logScreen},
 		mint.HomeItem{Icon: "i", Label: "How this works", Desc: "A short guide, in plain words", Open: a.guide},
 	)
 }
@@ -238,8 +238,8 @@ func (a *App) status() []mint.Badge {
 func (a *App) Run() {
 	UsePalette()
 	app := &mint.App{
-		Title:   "◈ Cairn",
-		Crumb:   "Cairn",
+		Title:   "◈ cairn",
+		Crumb:   "cairn",
 		Version: Version,
 		Items:   a.Items(),
 		Status:  a.status,

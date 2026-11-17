@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	// A guarded change (Harden this machine) runs Cairn again in the
+	// A guarded change (Harden this machine) runs cairn again in the
 	// background to put things back if the change cuts the person off.
 	if warden.HandleArgs(os.Args[1:]) {
 		return

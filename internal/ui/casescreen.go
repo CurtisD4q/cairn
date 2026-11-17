@@ -40,7 +40,7 @@ func (a *App) caseSections() []mint.Section {
 		}))
 	}
 
-	sRows := paragraph(mint.StyleCaption, "What you are allowed to test. Cairn checks every scan against it before it sends anything. Use a network (10.0.0.0/24), an address (192.168.1.9), or a domain (example.com covers its subdomains too; *.lab.test covers only the subdomains).", 0.85)
+	sRows := paragraph(mint.StyleCaption, "What you are allowed to test. cairn checks every scan against it before it sends anything. Use a network (10.0.0.0/24), an address (192.168.1.9), or a domain (example.com covers its subdomains too; *.lab.test covers only the subdomains).", 0.85)
 	sRows = append(sRows, mint.Text(mint.TextOpts{
 		Label: "Add a rule", Placeholder: "10.0.0.0/24 or example.com",
 		Get: func() string { return "" },

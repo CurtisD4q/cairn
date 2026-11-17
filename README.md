@@ -1,11 +1,11 @@
-# Cairn
+# cairn
 
 A terminal workbench for security work. Keep a **case**, say what you are **allowed to test**, run the everyday tools from one place, and **send what one finds to the next**, so you stop retyping targets and hopping between windows.
 
 Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI library), with its own look and layout. It runs in any modern terminal and inside Emacs.
 
 ```
-╭─ ◈ Workbench ─────────────────────────────────────────────────── Cairn ─╮
+╭─ ◈ Workbench ─────────────────────────────────────────────────── cairn ─╮
 │ ▸ Case                    │ ┄ Tools                    │ ┄ Recent       │
 │   Name           default  │ ┄ Discover                 │ 18:47 ping     │
 │   Scope          2 rules  │   Port scan          nmap   │   127.0.0.1    │
@@ -18,26 +18,26 @@ Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI libr
 ## What it does
 
 - **One case, one target.** Type a target once. Every tool starts with it, in the form that tool needs (an address for `ping`, a web address for `curl`).
-- **Scope first.** List the networks, addresses and domains you may test. Before any tool that sends traffic runs, Cairn checks the target against that list. No scope set: it asks. Outside it: you must type the target out to go ahead, and the override is recorded.
+- **Scope first.** List the networks, addresses and domains you may test. Before any tool that sends traffic runs, cairn checks the target against that list. No scope set: it asks. Outside it: you must type the target out to go ahead, and the override is recorded.
 - **Send results on.** Select a row in a result (an open port, an IP in a trace, a name server) and open it in another tool, hunt for it in the logs, save it as a machine, add it to the case, or copy it.
 - **Look for signs of intrusion.** *Something's wrong* starts from what you notice ("I think someone got in", "What can others reach here?") and runs read-only checks: failed logins, accounts with root's power, login keys changed lately, administrator commands, what is open to every network.
 - **Hunt in the logs.** Ready-made hunts (failed logins by address, who logged in, administrator commands) narrow the logs down step by step, showing what each step keeps and the command it makes.
 - **Keep the machines.** Save machines from results, check their host keys, connect with ssh, open tunnels.
 - **Harden this machine.** Accounts, permissions, the firewall and ssh settings, read-only until you choose Apply; a change that could cut off your own connection is refused or put back on its own unless you confirm you can still get in.
-- **Open your other Mint programs.** *Programs* lists every program made with Mint-Interfaces on this computer, in drop-down groups by what it does (Answer once, Observe over time, Act on targets…). Choose a program, then where it starts; it takes over the screen and you are back in Cairn when you quit it.
+- **Open your other Mint programs.** *Programs* lists every program made with Mint-Interfaces on this computer, in drop-down groups by what it does (Answer once, Observe over time, Act on targets…). Choose a program, then where it starts; it takes over the screen and you are back in cairn when you quit it.
 - **Plain words, exact command.** Everything explains itself, and the exact command is always shown, so you can see and learn what is being run.
-- **One audit log and a report.** Everything done in the case, by every part of Cairn, is logged with its time, target and whether it was in scope or agreed to. Save the case as a Markdown report.
+- **One audit log and a report.** Everything done in the case, by every part of cairn, is logged with its time, target and whether it was in scope or agreed to. Save the case as a Markdown report.
 
 ## Built from the Mint packs
 
-Cairn is the cybersecurity program built from [mint-kit](https://github.com/CurtisD4q/mint-kit) and [mint-tools](https://github.com/CurtisD4q/mint-tools), with four packs as siblings:
+cairn is the cybersecurity program built from [mint-kit](https://github.com/CurtisD4q/mint-kit) and [mint-tools](https://github.com/CurtisD4q/mint-tools), with four packs as siblings:
 
-| Part of Cairn | Pack | What Cairn adds |
+| Part of cairn | Pack | What cairn adds |
 |---|---|---|
 | Something's wrong, Health | [mint-lookout](https://github.com/CurtisD4q/mint-lookout) | Five security checks and two symptoms, as data |
 | Hunt in the logs | [mint-conduit](https://github.com/CurtisD4q/mint-conduit) | The ssh and sudo logs as sources, a "Pick out addresses" step, and three ready-made hunts |
 | Machines, Your keys | [mint-bridge](https://github.com/CurtisD4q/mint-bridge) | Saving a result as a machine, checked against the case's scope |
-| Harden this machine | [mint-warden](https://github.com/CurtisD4q/mint-warden) | Its lockout guard, served by Cairn itself |
+| Harden this machine | [mint-warden](https://github.com/CurtisD4q/mint-warden) | Its lockout guard, served by cairn itself |
 
 Every pack writes into the open case's audit log. The checks, values and scope rules come from mint-tools.
 
@@ -61,11 +61,11 @@ The *Programs* page finds programs made with [Mint-Interfaces](https://github.co
 
 Only executable files whose names end in `-mint` are asked what they are (`<program> --mint-info`, three seconds each); nothing else is run. Each program reports its group, and the groups start folded: open one, choose a program, then choose *Open* or one of its screens to start at.
 
-Opening a program is written to the case's audit log as *handed over (not checked)*: Cairn's scope check does not reach inside another program. Programs in the *Act on targets* group show the case's scope and ask before they open.
+Opening a program is written to the case's audit log as *handed over (not checked)*: cairn's scope check does not reach inside another program. Programs in the *Act on targets* group show the case's scope and ask before they open.
 
 ## Install
 
-Cairn needs Go 1.21 or newer. It depends on mint-kit, mint-tools and four packs, which are private repositories, so tell Go to fetch them directly:
+cairn needs Go 1.21 or newer. It depends on mint-kit, mint-tools and four packs, which are private repositories, so tell Go to fetch them directly:
 
 ```
 git clone https://github.com/CurtisD4q/cairn
@@ -86,7 +86,7 @@ Keys: arrows move, Enter opens or changes, Tab moves between panes, `b` goes bac
 
 ## In Emacs
 
-`emacs/cairn.el` adds `M-x cairn`. If [mint.el](https://github.com/CurtisD4q/mint-interfaces/tree/main/emacs) is installed, Cairn is started with it (handover in terminal Emacs, Emacs keys, your theme's colours). Otherwise it runs in a `term` buffer. `M-x cairn-cases` opens the folder of cases and saved reports in Dired.
+`emacs/cairn.el` adds `M-x cairn`. If [mint.el](https://github.com/CurtisD4q/mint-interfaces/tree/main/emacs) is installed, cairn is started with it (handover in terminal Emacs, Emacs keys, your theme's colours). Otherwise it runs in a `term` buffer. `M-x cairn-cases` opens the folder of cases and saved reports in Dired.
 
 ```elisp
 (add-to-list 'load-path "/path/to/cairn/emacs")
@@ -95,17 +95,17 @@ Keys: arrows move, Enter opens or changes, Tab moves between panes, `b` goes bac
 
 ## Where things are kept
 
-Cases, audit logs and reports are in `~/.local/share/cairn/cases/` (or `$CAIRN_HOME`), private to you (folders `0700`, files `0600`). Cairn sends nothing anywhere itself; the tools talk to the targets you point them at, and `dig` and `whois` ask public servers.
+Cases, audit logs and reports are in `~/.local/share/cairn/cases/` (or `$CAIRN_HOME`), private to you (folders `0700`, files `0600`). cairn sends nothing anywhere itself; the tools talk to the targets you point them at, and `dig` and `whois` ask public servers.
 
 ## Safety, and what it does not do
 
 - Programs are run directly, never through a shell. Targets are checked, and anything that could be taken for an option (a leading `-`) is refused; every command puts the target after `--`.
 - The scope check judges text only. It does not resolve names, so a domain cannot be matched against an address range; use the address, or add the domain.
-- Cairn helps you stay within your permission. It does not give you any. Only test what you are authorised to test.
+- cairn helps you stay within your permission. It does not give you any. Only test what you are authorised to test.
 
 ## Not tested here
 
-ufw, systemd actions and a live ssh server were not available on the machine Cairn was built on, so those paths are tested against saved output only. Each pack's README says the same for its part.
+ufw, systemd actions and a live ssh server were not available on the machine cairn was built on, so those paths are tested against saved output only. Each pack's README says the same for its part.
 
 ## Accessibility: where it stands
 

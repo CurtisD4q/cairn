@@ -1,4 +1,4 @@
-// Package tools describes the programs Cairn can run: what each takes, which
+// Package tools describes the programs cairn can run: what each takes, which
 // few options matter, how to build its command line, and how to turn its
 // output into rows. Nothing here runs a program; the caller does.
 package tools
@@ -152,7 +152,7 @@ func (t Tool) Argv(in Input) []string {
 }
 
 // Command is the command line as one line of text, quoted so it can be
-// pasted into a shell. It is for showing; Cairn never runs it through one.
+// pasted into a shell. It is for showing; cairn never runs it through one.
 func (t Tool) Command(in Input) string { return Quote(t.Argv(in)) }
 
 var safeWord = regexp.MustCompile(`^[A-Za-z0-9@%+=:,./_-]+$`)
