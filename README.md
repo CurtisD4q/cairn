@@ -14,8 +14,10 @@ Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI libr
 | **Run a tool.** Its options in plain words, the exact command, and what came back as a table. | **Send it on.** Anything a tool finds goes straight into the next tool, the logs, the machines list or the case. |
 | ![Something's wrong: five read-only checks for signs of intrusion, problems first](screenshots/intrusion.png) | ![Hunt in the logs: a ready-made chain of filters, with the command it makes](screenshots/hunt.png) |
 | **Something's wrong.** Start from what you notice; read-only checks list what they found, problems first. | **Hunt in the logs.** A chain of filters, one step at a time, with the exact command it makes. |
-| ![Programs: Mint programs on this computer in drop-down groups, with Act on targets open](screenshots/programs.png) | ![Opening nmap from Programs: cairn shows the case's scope and asks first](screenshots/scope.png) |
-| **Programs.** Every Mint program on this computer (nmap-mint and the like), in drop-down groups. | **Scope first.** Programs that send traffic show the case's scope and ask before they open. |
+| ![Programs: any program by name, or from drop-down groups, with Act on targets open](screenshots/programs.png) | ![nmap opened inside cairn: its options, targets, output and Run in panes, with the case's scope above](screenshots/inside.png) |
+| **Programs.** Open any program by name, or choose from drop-down groups. | **Any program, in the Mint layout.** nmap inside cairn: options, targets, output and Run, with the case's scope above. |
+| ![A run at a target outside the scope is refused, and nothing is sent](screenshots/refused.png) | ![The audit log: the refused run and the run in scope, with the exact commands](screenshots/auditlog.png) |
+| **Held to the scope.** A run at a target outside the case's scope is refused before anything is sent. | **Everything logged.** Every run, and every refusal, with the exact command. |
 
 ## What it does
 
@@ -26,7 +28,7 @@ Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI libr
 - **Hunt in the logs.** Ready-made hunts (failed logins by address, who logged in, administrator commands) narrow the logs down step by step, showing what each step keeps and the command it makes.
 - **Keep the machines.** Save machines from results, check their host keys, connect with ssh, open tunnels.
 - **Harden this machine.** Accounts, permissions, the firewall and ssh settings, read-only until you choose Apply; a change that could cut off your own connection is refused or put back on its own unless you confirm you can still get in.
-- **Open your other Mint programs.** *Programs* lists every Mint program on this computer (such as `nmap-mint`, made by [mint-wrapper](https://github.com/CurtisD4q/mint-wrapper)), in drop-down groups by what it does (Answer once, Observe over time, Act on targets…). Choose a program, then where it starts; it takes over the screen and you are back in cairn when you quit it.
+- **Any program, in the Mint layout.** *Programs* opens any command-line program inside cairn: its options, the exact command, Run and what came back, in panes. Programs that reach other machines are held to the case's scope on every run, and every run goes in the audit log.
 - **Plain words, exact command.** Everything explains itself, and the exact command is always shown, so you can see and learn what is being run.
 - **One audit log and a report.** Everything done in the case, by every part of cairn, is logged with its time, target and whether it was in scope or agreed to. Save the case as a Markdown report.
 
@@ -59,11 +61,15 @@ Tools that are not installed are listed as such, with the package name for Debia
 
 ## Programs
 
-The *Programs* page finds Mint programs such as `nmap-mint`: `mint-wrapper --make nmap` makes one in `~/.local/bin` without compiling anything (see [mint-wrapper](https://github.com/CurtisD4q/mint-wrapper)). It looks in `~/.local/bin/mint-interfaces`, `~/.local/bin`, `/usr/local/bin` and, when `MINT_INTERFACES_DIR` is set, that checkout's `apps` folder (one level of subfolders too). Set `MINT_APP_DIRS` to a `:`-separated list of folders to look there instead.
+*Programs* opens any command-line program inside cairn, in the Mint layout: its options in panes, the exact command, Run, and what came back, the way [mint-wrapper](https://github.com/CurtisD4q/mint-wrapper) shows it, in cairn's own frame.
 
-Only executable files whose names end in `-mint` are asked what they are (`<program> --mint-info`, three seconds each); nothing else is run. Each program reports its group, and the groups start folded: open one, choose a program, then choose *Open* or one of its screens to start at.
+- **Open a program…** takes any program's name. It is checked in the background first: programs that draw their own screen (vim, less), parts of the shell (cd) and programs with windows are not opened, and you are told why. Programs opened this way are kept in the list (in `programs/` beside the cases).
+- The list also shows the programs mint-wrapper keeps (its *Your programs*) and the standalone copies it makes (`mint-wrapper --make nmap` puts `nmap-mint` in `~/.local/bin`), in drop-down groups by what they do. Choose one, then the screen it starts at.
+- **Scope.** For a program that reaches other machines (nmap, curl, ssh, rsync, dig… and anything in the *Act on targets* group), every command it is about to run is checked: each address, network, name or web address in it must be in the case's scope, or the command is refused and nothing is sent. With no scope set, commands at a target are refused until you set one.
+- **Audit log.** Every command a program runs, and every refusal, goes in the case's audit log with the exact command.
+- Settings typed into a program stay while cairn runs, so it opens as you left it; secrets typed into one are wiped when cairn closes.
 
-Opening a program is written to the case's audit log as *handed over (not checked)*: cairn's scope check does not reach inside another program. Programs in the *Act on targets* group show the case's scope and ask before they open.
+cairn looks for Mint programs in `~/.local/bin/mint-interfaces`, `~/.local/bin`, `/usr/local/bin` and, when `MINT_INTERFACES_DIR` is set, that checkout's `apps` folder; set `MINT_APP_DIRS` to a `:`-separated list of folders to look there instead. Only executable files whose names end in `-mint` are asked what they are. An app built with `mint-gen --build` carries no description cairn can read, so it opens on its own as before, and its runs are logged as *handed over (not checked)*.
 
 ## Install
 

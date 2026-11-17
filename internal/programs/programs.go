@@ -1,5 +1,7 @@
-// Package programs finds the Mint programs made by mint-wrapper (or mint-gen)
-// on this computer, so cairn can list them in groups and run them.
+// Package programs finds the Mint programs on this computer, so cairn can
+// list them in groups and open them: standalone copies made by
+// mint-wrapper (nmap-mint), the programs mint-wrapper and cairn keep, and
+// apps built with mint-gen.
 //
 // A Mint app is an executable whose name ends in "-mint" (nmap-mint,
 // tcpdump-mint) and that describes itself when run with --mint-info. Only
@@ -17,6 +19,8 @@ import (
 	"sync"
 	"time"
 
+	gen "github.com/CurtisD4q/mint-gen"
+	"github.com/CurtisD4q/mint-spec"
 	"github.com/CurtisD4q/mint-tools/action"
 )
 
@@ -29,8 +33,15 @@ type Item struct {
 
 // Program is one Mint app.
 type Program struct {
-	Path    string   `json:"-"`
-	Name    string   `json:"-"` // the file's name: nmap-mint
+	Path string `json:"-"`
+	Name string `json:"-"` // the file's name: nmap-mint
+	// Spec is the program's description, when cairn can open it inside
+	// itself: a standalone copy carries one, and kept programs are one.
+	// An app built with mint-gen has none and opens on its own.
+	Spec *spec.ToolSpec `json:"-"`
+	// Source says where it was found: "copy", "mint-wrapper", "cairn" or
+	// "app".
+	Source  string   `json:"-"`
 	Title   string   `json:"title"`
 	Group   string   `json:"group"`
 	Note    string   `json:"note"`
@@ -125,7 +136,10 @@ func Find(ctx context.Context, exec action.Executor, dirs []string) []Program {
 			if json.Unmarshal(r.Stdout, &prog) != nil || prog.Title == "" {
 				return
 			}
-			prog.Path, prog.Name = p, filepath.Base(p)
+			prog.Path, prog.Name, prog.Source = p, filepath.Base(p), "app"
+			if sp, _, err := gen.ReadEmbeddedSpec(p); err == nil {
+				prog.Spec, prog.Source = &sp, "copy"
+			}
 			out[i] = &prog
 		}(i, p)
 	}
@@ -138,6 +152,71 @@ func Find(ctx context.Context, exec action.Executor, dirs []string) []Program {
 	}
 	sort.SliceStable(ps, func(i, j int) bool { return strings.ToLower(ps[i].Label()) < strings.ToLower(ps[j].Label()) })
 	return ps
+}
+
+// Kept reads the program descriptions kept as JSON in dir (mint-wrapper's
+// Your programs, or cairn's own), labelled with source.
+func Kept(dir, source string) []Program {
+	paths, _ := filepath.Glob(filepath.Join(dir, "*.json"))
+	var out []Program
+	for _, p := range paths {
+		sp, err := gen.LoadSpec(p)
+		if err != nil {
+			continue
+		}
+		group := "Anything else"
+		if ms := sp.Members(); len(ms) > 0 && ms[0].Group != "" {
+			group = ms[0].Group
+		}
+		out = append(out, Program{Path: p, Name: sp.Name, Title: sp.Title, Group: group, Note: sp.Desc, Spec: &sp, Source: source})
+	}
+	return out
+}
+
+// WrapperDir is where mint-wrapper keeps Your programs:
+// $MINT_WRAPPER_HOME/programs, else mint-wrapper/programs in
+// $XDG_DATA_HOME (~/.local/share).
+func WrapperDir() string {
+	if d := os.Getenv("MINT_WRAPPER_HOME"); d != "" {
+		return filepath.Join(d, "programs")
+	}
+	base := os.Getenv("XDG_DATA_HOME")
+	if base == "" || !filepath.IsAbs(base) {
+		home, _ := os.UserHomeDir()
+		base = filepath.Join(home, ".local", "share")
+	}
+	return filepath.Join(base, "mint-wrapper", "programs")
+}
+
+// Merge puts lists together, one entry per program: an earlier list wins,
+// and a program cairn can open inside itself wins over one it cannot. The
+// result is by label.
+func Merge(lists ...[]Program) []Program {
+	byName := map[string]int{}
+	var out []Program
+	for _, l := range lists {
+		for _, p := range l {
+			key := programKey(p)
+			if i, ok := byName[key]; ok {
+				if out[i].Spec == nil && p.Spec != nil {
+					out[i] = p
+				}
+				continue
+			}
+			byName[key] = len(out)
+			out = append(out, p)
+		}
+	}
+	sort.SliceStable(out, func(i, j int) bool { return strings.ToLower(out[i].Label()) < strings.ToLower(out[j].Label()) })
+	return out
+}
+
+// programKey is the program a Mint program is for: nmap for nmap-mint.
+func programKey(p Program) string {
+	if p.Spec != nil && p.Spec.Name != "" {
+		return p.Spec.Name
+	}
+	return strings.TrimSuffix(p.Name, "-mint")
 }
 
 // Group is one heading and its apps.

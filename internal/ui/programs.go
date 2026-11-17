@@ -1,18 +1,27 @@
 package ui
 
-// The Programs page: every Mint program (nmap-mint and the like) on this
-// computer, in drop-down groups. Choose a program first, then where to
-// open it; cairn hands it the terminal and takes it back when it ends.
+// The Programs page: every Mint program on this computer, in drop-down
+// groups, plus any program typed by name. A program opens inside cairn, in
+// the Mint layout: its options, the exact command, Run and what came back,
+// in panes. For programs that send traffic, every command is checked
+// against the case's scope first; every command is written to the case's
+// audit log. Apps built with mint-gen carry no description, so they still
+// open on their own.
 
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 	"time"
 
 	mint "github.com/CurtisD4q/mint-kit"
 	"github.com/CurtisD4q/mint-kit/layouts"
+
+	gen "github.com/CurtisD4q/mint-gen"
+	"github.com/CurtisD4q/mint-spec"
 	"github.com/CurtisD4q/mint-tools/action"
 
 	"github.com/CurtisD4q/cairn/internal/programs"
@@ -25,14 +34,26 @@ type programList struct {
 	looked bool
 }
 
+// keptDir is where cairn keeps the programs opened by name.
+func (a *App) keptDir() string {
+	return filepath.Join(filepath.Dir(a.st.Dir()), "programs")
+}
+
+// findPrograms gathers every source: cairn's own kept programs first, then
+// mint-wrapper's, then Mint programs on the PATH-like folders.
+func (a *App) findPrograms() []programs.Program {
+	found := programs.Find(context.Background(), a.packs.exec, programs.Dirs())
+	return programs.Merge(
+		programs.Kept(a.keptDir(), "cairn"),
+		programs.Kept(programs.WrapperDir(), "mint-wrapper"),
+		found,
+	)
+}
+
 func (a *App) programsScreen() *mint.Screen {
 	pl := &programList{}
-	dirs := programs.Dirs()
-	look := func(c *mint.Ctx) {
-		var found []programs.Program
-		c.Busy("Looking for Mint programs…", func() {
-			found = programs.Find(context.Background(), a.packs.exec, dirs)
-		})
+	look := func() {
+		found := a.findPrograms()
 		pl.mu.Lock()
 		pl.found, pl.looked = found, true
 		pl.mu.Unlock()
@@ -43,32 +64,40 @@ func (a *App) programsScreen() *mint.Screen {
 		done := pl.looked
 		pl.mu.Unlock()
 		if !done {
-			found := programs.Find(context.Background(), a.packs.exec, dirs)
-			pl.mu.Lock()
-			pl.found, pl.looked = found, true
-			pl.mu.Unlock()
+			look()
 		}
 	}
 	scr.Refresh = func(s *mint.Screen) {
 		pl.mu.Lock()
 		found, looked := pl.found, pl.looked
 		pl.mu.Unlock()
-		intro := layouts.Paragraphs([]string{"Mint programs on this computer, such as nmap-mint, grouped by what they do. Open a group, choose a program, then choose where it starts. It takes over the screen until you quit it, then you are back here."}, 0.9)
-		var sections []mint.Section
-		head := append(intro, mint.Spacer())
+		head := layouts.Paragraphs([]string{"Any command-line program, opened inside cairn: its options, the exact command, Run and what came back, side by side. Programs that reach other machines are checked against this case's scope before every run, and every run goes in the audit log."}, 0.9)
+		head = append(head, mint.Spacer(),
+			mint.Action(mint.ActionOpts{ID: "open-any", Label: "Open a program…", Get: func() string { return "any program, by name" }, OnActivate: func(c *mint.Ctx) {
+				name, ok := c.Prompt("Open a program", "Its name, such as nmap, rsync or tar", "")
+				name = strings.TrimSpace(name)
+				if !ok || name == "" {
+					return
+				}
+				if sp, ok := a.prepareProgram(c, name); ok {
+					look()
+					a.openInside(c, sp)
+				}
+			}}),
+			mint.Action(mint.ActionOpts{ID: "look", Label: "Look again", OnActivate: func(c *mint.Ctx) {
+				c.Busy("Looking for Mint programs…", look)
+			}}),
+		)
 		switch {
 		case !looked:
 			head = append(head, mint.Note("Looking…"))
 		case len(found) == 0:
 			head = append(head, layouts.Paragraphs([]string{
-				"No Mint programs found in " + strings.Join(dirs, ", ") + ".",
-				"Make one with mint-wrapper (mint-wrapper --make nmap puts nmap-mint in ~/.local/bin), or set MINT_APP_DIRS to the folders yours are in.",
+				"None kept yet. Open a program by name, or make standalone copies with mint-wrapper (mint-wrapper --make nmap) and they appear here.",
 			}, 0.9)...)
 		}
-		head = append(head, mint.Action(mint.ActionOpts{ID: "look", Label: "Look again", OnActivate: look}))
-		sections = append(sections, mint.Section{Rows: head})
+		sections := []mint.Section{{Rows: head}}
 		for _, g := range programs.ByGroup(found) {
-			g := g
 			var rows []mint.Row
 			for _, p := range g.Programs {
 				p := p
@@ -90,18 +119,79 @@ func programState(p programs.Program) string {
 	if len(p.Missing) > 0 {
 		return "needs " + strings.Join(p.Missing, ", ")
 	}
-	if len(p.Items) > 0 && p.Items[0].Desc != "" {
-		return clip(p.Items[0].Desc, 48)
+	desc := p.Note
+	if desc == "" && len(p.Items) > 0 {
+		desc = p.Items[0].Desc
 	}
-	return p.Name
+	if p.Spec == nil {
+		desc = "opens on its own · " + desc
+	}
+	if desc == "" {
+		return p.Name
+	}
+	return clip(desc, 48)
 }
 
-// openProgram asks where to start the chosen program, then runs it.
+// prepareProgram checks a program typed by name, in the background, and
+// keeps its description so it is listed from now on.
+func (a *App) prepareProgram(c *mint.Ctx, name string) (spec.ToolSpec, bool) {
+	var p gen.Prepared
+	c.Busy("Checking "+name+"…", func() { p = gen.Prepare(name) })
+	switch p.Fit {
+	case gen.NotInstalled:
+		c.Message(name+" is not here", p.Why+"\n\n"+p.Instead)
+		return spec.ToolSpec{}, false
+	case gen.DoesNotFit:
+		c.Message(name+" cannot open here", p.Why+"\n\n"+p.Instead)
+		return spec.ToolSpec{}, false
+	case gen.FitsPartly:
+		if !c.Confirm("Open "+name+" anyway?", p.Why) {
+			return spec.ToolSpec{}, false
+		}
+	}
+	path := filepath.Join(a.keptDir(), safeName(p.Spec.Name)+".json")
+	if err := gen.SaveSpec(path, p.Spec); err != nil {
+		c.ToastWarn("Could not keep " + name + " in the list: " + err.Error())
+	}
+	return p.Spec, true
+}
+
+func safeName(s string) string {
+	var b strings.Builder
+	for _, r := range filepath.Base(s) {
+		switch {
+		case r >= 'a' && r <= 'z', r >= 'A' && r <= 'Z', r >= '0' && r <= '9', r == '-', r == '_', r == '.', r == '+':
+			b.WriteRune(r)
+		default:
+			b.WriteRune('_')
+		}
+	}
+	out := strings.TrimLeft(b.String(), ".")
+	if out == "" {
+		out = "program"
+	}
+	return out
+}
+
+// openProgram opens a listed program: inside cairn when there is a
+// description, otherwise on its own.
 func (a *App) openProgram(c *mint.Ctx, p programs.Program) {
 	if len(p.Missing) > 0 {
 		c.Message(p.Label()+" cannot run here", p.Label()+" needs "+strings.Join(p.Missing, ", ")+", which is not installed.")
 		return
 	}
+	if p.Spec != nil {
+		if _, err := os.Stat(p.Path); p.Source != "copy" || err == nil {
+			a.openInside(c, *p.Spec)
+			return
+		}
+	}
+	a.handOver(c, p)
+}
+
+// handOver runs an app that has no description cairn can read, giving it
+// the terminal until it quits.
+func (a *App) handOver(c *mint.Ctx, p programs.Program) {
 	items := []mint.Choice{{Label: "Open " + p.Label(), Value: ""}}
 	for _, it := range p.Items {
 		label := "Start at " + it.Label
@@ -110,11 +200,7 @@ func (a *App) openProgram(c *mint.Ctx, p programs.Program) {
 		}
 		items = append(items, mint.Choice{Label: label, Value: it.Label})
 	}
-	sub := p.Name
-	if p.Note != "" {
-		sub += ": " + p.Note
-	}
-	pick, ok := c.ChooseItem(p.Label(), items, sub)
+	pick, ok := c.ChooseItem(p.Label(), items, p.Name+": it opens on its own, so cairn cannot check its targets or log what it runs.")
 	if !ok {
 		return
 	}
@@ -128,7 +214,7 @@ func (a *App) openProgram(c *mint.Ctx, p programs.Program) {
 		if len(rules) > 0 {
 			scopeText = "This case's scope: " + strings.Join(rules, ", ") + "."
 		}
-		if !c.Confirm("Open "+p.Label()+"?", p.Label()+" sends traffic to the targets you give it. cairn's scope check does not reach inside it, so check each target yourself.\n\n"+scopeText) {
+		if !c.Confirm("Open "+p.Label()+"?", p.Label()+" sends traffic to the targets you give it, and it opens on its own, so cairn cannot check them: check each target yourself.\n\n"+scopeText) {
 			return
 		}
 	}

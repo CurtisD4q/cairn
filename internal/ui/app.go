@@ -17,7 +17,7 @@ import (
 )
 
 // Version is cairn's version.
-const Version = "0.3.0"
+const Version = "0.4.0"
 
 // Limits keep a case file small and its screens quick.
 const (
@@ -34,6 +34,7 @@ type App struct {
 	ents []store.Entry
 
 	packs *packs
+	in    inside // programs opened inside cairn
 }
 
 // New opens the store's current case, making one called "default" if there is
@@ -245,6 +246,7 @@ func (a *App) Run() {
 		Status:  a.status,
 	}
 	app.Run()
+	a.closeInside() // wipe secrets typed into programs opened here
 	runner.StopAll()
 }
 
