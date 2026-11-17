@@ -5,7 +5,7 @@ package ui
 // the Mint layout: its options, the exact command, Run and what came back,
 // in panes. For programs that send traffic, every command is checked
 // against the case's scope first; every command is written to the case's
-// audit log. Apps built with mint-gen carry no description, so they still
+// audit log. Apps built with mint-g carry no description, so they still
 // open on their own.
 
 import (
@@ -40,12 +40,12 @@ func (a *App) keptDir() string {
 }
 
 // findPrograms gathers every source: cairn's own kept programs first, then
-// mint-wrapper's, then Mint programs on the PATH-like folders.
+// mint-wr's, then Mint programs on the PATH-like folders.
 func (a *App) findPrograms() []programs.Program {
 	found := programs.Find(context.Background(), a.packs.exec, programs.Dirs())
 	return programs.Merge(
 		programs.Kept(a.keptDir(), "cairn"),
-		programs.Kept(programs.WrapperDir(), "mint-wrapper"),
+		programs.Kept(programs.WrapperDir(), "mint-wr"),
 		found,
 	)
 }
@@ -93,7 +93,7 @@ func (a *App) programsScreen() *mint.Screen {
 			head = append(head, mint.Note("Looking…"))
 		case len(found) == 0:
 			head = append(head, layouts.Paragraphs([]string{
-				"None kept yet. Open a program by name, or make standalone copies with mint-wrapper (mint-wrapper --make nmap) and they appear here.",
+				"None kept yet. Open a program by name, or make standalone copies with mint-wr (mint-wr --make nmap) and they appear here.",
 			}, 0.9)...)
 		}
 		sections := []mint.Section{{Rows: head}}

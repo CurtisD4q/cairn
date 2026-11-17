@@ -61,17 +61,17 @@ Tools that are not installed are listed as such, with the package name for Debia
 
 ## Programs
 
-*Programs* opens any command-line program inside cairn, in the Mint layout: its options in panes, the exact command, Run, and what came back, the way [mint-wrapper](https://github.com/CurtisD4q/mint-wrapper) shows it, in cairn's own frame.
+*Programs* opens any command-line program inside cairn, in the Mint layout: its options in panes, the exact command, Run, and what came back, the way [mint-wrap](https://github.com/CurtisD4q/mint-wrap) shows it, in cairn's own frame.
 
 ![nmap opened inside cairn: its options, targets, output and Run in panes, with the case's scope above](screenshots/inside.png)
 
 - **Open a program…** takes any program's name. It is checked in the background first: programs that draw their own screen (vim, less), parts of the shell (cd) and programs with windows are not opened, and you are told why. Programs opened this way are kept in the list (in `programs/` beside the cases).
-- The list also shows the programs mint-wrapper keeps (its *Your programs*) and the standalone copies it makes (`mint-wrapper --make nmap` puts `nmap-mint` in `~/.local/bin`), in drop-down groups by what they do. Choose one, then the screen it starts at.
+- The list also shows the programs mint-wr keeps (its *Your programs*) and the standalone copies it makes (`mint-wr --make nmap` puts `nmap-mint` in `~/.local/bin`), in drop-down groups by what they do. Choose one, then the screen it starts at.
 - **Scope.** For a program that reaches other machines (nmap, curl, ssh, rsync, dig… and anything in the *Act on targets* group), every command it is about to run is checked: each address, network, name or web address in it must be in the case's scope, or the command is refused and nothing is sent. With no scope set, commands at a target are refused until you set one.
 - **Audit log.** Every command a program runs, and every refusal, goes in the case's audit log with the exact command.
 - Settings typed into a program stay while cairn runs, so it opens as you left it; secrets typed into one are wiped when cairn closes.
 
-cairn looks for Mint programs in `~/.local/bin/mint-interfaces`, `~/.local/bin`, `/usr/local/bin` and, when `MINT_INTERFACES_DIR` is set, that checkout's `apps` folder; set `MINT_APP_DIRS` to a `:`-separated list of folders to look there instead. Only executable files whose names end in `-mint` are asked what they are. An app built with `mint-gen --build` carries no description cairn can read, so it opens on its own as before, and its runs are logged as *handed over (not checked)*.
+cairn looks for Mint programs in `~/.local/bin/mint-interfaces`, `~/.local/bin`, `/usr/local/bin` and, when `MINT_INTERFACES_DIR` is set, that checkout's `apps` folder; set `MINT_APP_DIRS` to a `:`-separated list of folders to look there instead. Only executable files whose names end in `-mint` are asked what they are. An app built with `mint-g --build` carries no description cairn can read, so it opens on its own as before, and its runs are logged as *handed over (not checked)*.
 
 ## Install
 
