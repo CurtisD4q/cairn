@@ -1,6 +1,6 @@
 package ui
 
-// The Programs page: every Mint app made by Mint-Interfaces on this
+// The Programs page: every Mint program (nmap-mint and the like) on this
 // computer, in drop-down groups. Choose a program first, then where to
 // open it; cairn hands it the terminal and takes it back when it ends.
 
@@ -53,7 +53,7 @@ func (a *App) programsScreen() *mint.Screen {
 		pl.mu.Lock()
 		found, looked := pl.found, pl.looked
 		pl.mu.Unlock()
-		intro := layouts.Paragraphs([]string{"Programs made with Mint-Interfaces, grouped by what they do. Open a group, choose a program, then choose where it starts. It takes over the screen until you quit it, then you are back here."}, 0.9)
+		intro := layouts.Paragraphs([]string{"Mint programs on this computer, such as nmap-mint, grouped by what they do. Open a group, choose a program, then choose where it starts. It takes over the screen until you quit it, then you are back here."}, 0.9)
 		var sections []mint.Section
 		head := append(intro, mint.Spacer())
 		switch {
@@ -62,7 +62,7 @@ func (a *App) programsScreen() *mint.Screen {
 		case len(found) == 0:
 			head = append(head, layouts.Paragraphs([]string{
 				"No Mint programs found in " + strings.Join(dirs, ", ") + ".",
-				"Make one with Mint-Interfaces (mint-gen --build --install nmap), or set MINT_APP_DIRS to the folders yours are in.",
+				"Make one with mint-wrapper (mint-wrapper --make nmap puts nmap-mint in ~/.local/bin), or set MINT_APP_DIRS to the folders yours are in.",
 			}, 0.9)...)
 		}
 		head = append(head, mint.Action(mint.ActionOpts{ID: "look", Label: "Look again", OnActivate: look}))

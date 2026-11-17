@@ -1,4 +1,4 @@
-// Package programs finds the Mint apps made by Mint-Interfaces (mint-gen)
+// Package programs finds the Mint programs made by mint-wrapper (or mint-gen)
 // on this computer, so cairn can list them in groups and run them.
 //
 // A Mint app is an executable whose name ends in "-mint" (nmap-mint,
@@ -52,14 +52,14 @@ func (p Program) Label() string {
 	return t
 }
 
-// Groups is the order groups are shown in: the order mint-gen uses for
+// Groups is the order groups are shown in: the order mint-wrapper uses for
 // its archetypes. Apps that name no group go under "Anything else".
 var Groups = []string{"Answer once", "Observe over time", "Act on targets", "Make something",
 	"Change things", "Manage a collection", "Run other things", "Anything else"}
 
 // Dirs are the folders searched: $MINT_APP_DIRS (separated by ":") when it
-// is set; otherwise where mint-gen installs apps, and the apps folder of a
-// Mint-Interfaces checkout named by $MINT_INTERFACES_DIR.
+// is set; otherwise where mint-wrapper and mint-gen put apps, and the apps
+// folder of a mint-wrapper checkout named by $MINT_INTERFACES_DIR.
 func Dirs() []string {
 	if v := os.Getenv("MINT_APP_DIRS"); v != "" {
 		return filepath.SplitList(v)

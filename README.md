@@ -4,16 +4,18 @@ A terminal workbench for security work. Keep a **case**, say what you are **allo
 
 Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI library), with its own look and layout. It runs in any modern terminal and inside Emacs.
 
-```
-╭─ ◈ Workbench ─────────────────────────────────────────────────── cairn ─╮
-│ ▸ Case                    │ ┄ Tools                    │ ┄ Recent       │
-│   Name           default  │ ┄ Discover                 │ 18:47 ping     │
-│   Scope          2 rules  │   Port scan          nmap   │   127.0.0.1    │
-│   Target       10.20.0.5  │   Trace the route  tracer…  │ 18:48 nmap     │
-│ ┄ Targets                 │ ┄ Reach                    │   127.0.0.1    │
-│   ● 10.20.0.5   address   │   Is it up?          ping   │                │
-╰──────────────────────────────────────────────────────────────────────────╯
-```
+![The workbench: the case, the tools grouped by what they do, and recent runs](screenshots/workbench.png)
+
+## Screenshots
+
+| | |
+|---|---|
+| ![A tool's screen: its options in plain words, the exact command, and what came back as a table](screenshots/results.png) | ![Send to: a port found by one tool opened in another, saved as a machine, hunted for in the logs or added to the case](screenshots/sendto.png) |
+| **Run a tool.** Its options in plain words, the exact command, and what came back as a table. | **Send it on.** Anything a tool finds goes straight into the next tool, the logs, the machines list or the case. |
+| ![Something's wrong: five read-only checks for signs of intrusion, problems first](screenshots/intrusion.png) | ![Hunt in the logs: a ready-made chain of filters, with the command it makes](screenshots/hunt.png) |
+| **Something's wrong.** Start from what you notice; read-only checks list what they found, problems first. | **Hunt in the logs.** A chain of filters, one step at a time, with the exact command it makes. |
+| ![Programs: Mint programs on this computer in drop-down groups, with Act on targets open](screenshots/programs.png) | ![Opening nmap from Programs: cairn shows the case's scope and asks first](screenshots/scope.png) |
+| **Programs.** Every Mint program on this computer (nmap-mint and the like), in drop-down groups. | **Scope first.** Programs that send traffic show the case's scope and ask before they open. |
 
 ## What it does
 
@@ -24,7 +26,7 @@ Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI libr
 - **Hunt in the logs.** Ready-made hunts (failed logins by address, who logged in, administrator commands) narrow the logs down step by step, showing what each step keeps and the command it makes.
 - **Keep the machines.** Save machines from results, check their host keys, connect with ssh, open tunnels.
 - **Harden this machine.** Accounts, permissions, the firewall and ssh settings, read-only until you choose Apply; a change that could cut off your own connection is refused or put back on its own unless you confirm you can still get in.
-- **Open your other Mint programs.** *Programs* lists every program made with Mint-Interfaces on this computer, in drop-down groups by what it does (Answer once, Observe over time, Act on targets…). Choose a program, then where it starts; it takes over the screen and you are back in cairn when you quit it.
+- **Open your other Mint programs.** *Programs* lists every Mint program on this computer (such as `nmap-mint`, made by [mint-wrapper](https://github.com/CurtisD4q/mint-wrapper)), in drop-down groups by what it does (Answer once, Observe over time, Act on targets…). Choose a program, then where it starts; it takes over the screen and you are back in cairn when you quit it.
 - **Plain words, exact command.** Everything explains itself, and the exact command is always shown, so you can see and learn what is being run.
 - **One audit log and a report.** Everything done in the case, by every part of cairn, is logged with its time, target and whether it was in scope or agreed to. Save the case as a Markdown report.
 
@@ -57,7 +59,7 @@ Tools that are not installed are listed as such, with the package name for Debia
 
 ## Programs
 
-The *Programs* page finds programs made with [Mint-Interfaces](https://github.com/CurtisD4q/mint-interfaces) (`mint-gen --build --install nmap` makes `nmap-mint`). It looks in `~/.local/bin/mint-interfaces`, `~/.local/bin`, `/usr/local/bin` and, when `MINT_INTERFACES_DIR` is set, that checkout's `apps` folder (one level of subfolders too). Set `MINT_APP_DIRS` to a `:`-separated list of folders to look there instead.
+The *Programs* page finds Mint programs such as `nmap-mint`: `mint-wrapper --make nmap` makes one in `~/.local/bin` without compiling anything (see [mint-wrapper](https://github.com/CurtisD4q/mint-wrapper)). It looks in `~/.local/bin/mint-interfaces`, `~/.local/bin`, `/usr/local/bin` and, when `MINT_INTERFACES_DIR` is set, that checkout's `apps` folder (one level of subfolders too). Set `MINT_APP_DIRS` to a `:`-separated list of folders to look there instead.
 
 Only executable files whose names end in `-mint` are asked what they are (`<program> --mint-info`, three seconds each); nothing else is run. Each program reports its group, and the groups start folded: open one, choose a program, then choose *Open* or one of its screens to start at.
 
