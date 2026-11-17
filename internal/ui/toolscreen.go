@@ -5,14 +5,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-kit"
-	"github.com/CurtisD4q/mint-kit/runner"
+	"github.com/CurtisD4q/mint-kt"
+	"github.com/CurtisD4q/mint-kt/runner"
 
 	"github.com/CurtisD4q/cairn/internal/security"
 	"github.com/CurtisD4q/cairn/internal/store"
 	"github.com/CurtisD4q/cairn/internal/tools"
-	"github.com/CurtisD4q/mint-tools/scope"
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/mint-tl/scope"
+	"github.com/CurtisD4q/mint-tl/values"
 )
 
 // debPackage names the package that holds each program on Debian and Ubuntu,

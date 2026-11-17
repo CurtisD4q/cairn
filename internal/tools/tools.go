@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/mint-tl/values"
 )
 
 // Group is the heading a tool is listed under.

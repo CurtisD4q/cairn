@@ -1,11 +1,11 @@
 package ui
 
 import (
-	"github.com/CurtisD4q/mint-tools/scope"
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/mint-tl/scope"
+	"github.com/CurtisD4q/mint-tl/values"
 	"strings"
 
-	"github.com/CurtisD4q/mint-kit"
+	"github.com/CurtisD4q/mint-kt"
 )
 
 // wrap breaks text into lines of at most width cells, at spaces.

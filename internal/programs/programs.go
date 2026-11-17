@@ -1,7 +1,7 @@
 // Package programs finds the Mint programs on this computer, so cairn can
 // list them in groups and open them: standalone copies made by
-// mint-wrapper (nmap-mint), the programs mint-wrapper and cairn keep, and
-// apps built with mint-gen.
+// mint-wr (nmap-mint), the programs mint-wr and cairn keep, and
+// apps built with mint-g.
 //
 // A Mint app is an executable whose name ends in "-mint" (nmap-mint,
 // tcpdump-mint) and that describes itself when run with --mint-info. Only
@@ -19,9 +19,9 @@ import (
 	"sync"
 	"time"
 
-	gen "github.com/CurtisD4q/mint-gen"
-	"github.com/CurtisD4q/mint-spec"
-	"github.com/CurtisD4q/mint-tools/action"
+	gen "github.com/CurtisD4q/mint-g"
+	"github.com/CurtisD4q/mint-sp"
+	"github.com/CurtisD4q/mint-tl/action"
 )
 
 // Item is one screen an app opens at.
@@ -37,9 +37,9 @@ type Program struct {
 	Name string `json:"-"` // the file's name: nmap-mint
 	// Spec is the program's description, when cairn can open it inside
 	// itself: a standalone copy carries one, and kept programs are one.
-	// An app built with mint-gen has none and opens on its own.
+	// An app built with mint-g has none and opens on its own.
 	Spec *spec.ToolSpec `json:"-"`
-	// Source says where it was found: "copy", "mint-wrapper", "cairn" or
+	// Source says where it was found: "copy", "mint-wr", "cairn" or
 	// "app".
 	Source  string   `json:"-"`
 	Title   string   `json:"title"`
@@ -63,14 +63,14 @@ func (p Program) Label() string {
 	return t
 }
 
-// Groups is the order groups are shown in: the order mint-wrapper uses for
+// Groups is the order groups are shown in: the order mint-wr uses for
 // its archetypes. Apps that name no group go under "Anything else".
 var Groups = []string{"Answer once", "Observe over time", "Act on targets", "Make something",
 	"Change things", "Manage a collection", "Run other things", "Anything else"}
 
 // Dirs are the folders searched: $MINT_APP_DIRS (separated by ":") when it
-// is set; otherwise where mint-wrapper and mint-gen put apps, and the apps
-// folder of a mint-wrapper checkout named by $MINT_INTERFACES_DIR.
+// is set; otherwise where mint-wr and mint-g put apps, and the apps
+// folder of a mint-wr checkout named by $MINT_INTERFACES_DIR.
 func Dirs() []string {
 	if v := os.Getenv("MINT_APP_DIRS"); v != "" {
 		return filepath.SplitList(v)
@@ -154,7 +154,7 @@ func Find(ctx context.Context, exec action.Executor, dirs []string) []Program {
 	return ps
 }
 
-// Kept reads the program descriptions kept as JSON in dir (mint-wrapper's
+// Kept reads the program descriptions kept as JSON in dir (mint-wr's
 // Your programs, or cairn's own), labelled with source.
 func Kept(dir, source string) []Program {
 	paths, _ := filepath.Glob(filepath.Join(dir, "*.json"))
@@ -173,7 +173,7 @@ func Kept(dir, source string) []Program {
 	return out
 }
 
-// WrapperDir is where mint-wrapper keeps Your programs:
+// WrapperDir is where mint-wr keeps Your programs:
 // $MINT_WRAPPER_HOME/programs, else mint-wrapper/programs in
 // $XDG_DATA_HOME (~/.local/share).
 func WrapperDir() string {

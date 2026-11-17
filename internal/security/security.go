@@ -12,10 +12,10 @@ import (
 	"strings"
 	"time"
 
-	conduit "github.com/CurtisD4q/mint-conduit"
-	lookout "github.com/CurtisD4q/mint-lookout"
-	"github.com/CurtisD4q/mint-tools/action"
-	"github.com/CurtisD4q/mint-tools/words"
+	conduit "github.com/CurtisD4q/mint-cd"
+	lookout "github.com/CurtisD4q/mint-lo"
+	"github.com/CurtisD4q/mint-tl/action"
+	"github.com/CurtisD4q/mint-tl/words"
 )
 
 const probeTimeout = 20 * time.Second

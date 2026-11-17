@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/CurtisD4q/mint-tools/run"
+	"github.com/CurtisD4q/mint-tl/run"
 )
 
 func script(t *testing.T, path, body string) {
@@ -49,7 +49,7 @@ func TestFindAsksOnlyMintAppsAndGroupsThem(t *testing.T) {
 func TestRealGeneratedApps(t *testing.T) {
 	dir := os.Getenv("MINT_TEST_APPS")
 	if dir == "" {
-		t.Skip("set MINT_TEST_APPS to a folder of apps built by mint-gen")
+		t.Skip("set MINT_TEST_APPS to a folder of apps built by mint-g")
 	}
 	ps := Find(context.Background(), run.Local{}, []string{dir})
 	if len(ps) == 0 {

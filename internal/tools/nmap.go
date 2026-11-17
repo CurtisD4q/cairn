@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/mint-tl/values"
 )
 
 // Nmap finds which ports are open on a host or a network.

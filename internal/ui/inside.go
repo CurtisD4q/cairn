@@ -1,6 +1,6 @@
 package ui
 
-// Programs opened inside cairn: a Mint interface (mint-appkit) for any
+// Programs opened inside cairn: a Mint interface (mint-ak) for any
 // command-line program, shown in cairn's own frame, with cairn watching
 // every command it runs.
 
@@ -11,13 +11,13 @@ import (
 	"sync"
 	"time"
 
-	mint "github.com/CurtisD4q/mint-kit"
+	mint "github.com/CurtisD4q/mint-kt"
 
-	appkit "github.com/CurtisD4q/mint-appkit"
-	"github.com/CurtisD4q/mint-spec"
-	"github.com/CurtisD4q/mint-tools/action"
-	"github.com/CurtisD4q/mint-tools/scope"
-	"github.com/CurtisD4q/mint-tools/values"
+	appkit "github.com/CurtisD4q/mint-ak"
+	"github.com/CurtisD4q/mint-sp"
+	"github.com/CurtisD4q/mint-tl/action"
+	"github.com/CurtisD4q/mint-tl/scope"
+	"github.com/CurtisD4q/mint-tl/values"
 
 	"github.com/CurtisD4q/cairn/internal/store"
 )

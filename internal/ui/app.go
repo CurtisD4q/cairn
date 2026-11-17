@@ -9,11 +9,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/CurtisD4q/mint-kit"
-	"github.com/CurtisD4q/mint-kit/runner"
+	"github.com/CurtisD4q/mint-kt"
+	"github.com/CurtisD4q/mint-kt/runner"
 
 	"github.com/CurtisD4q/cairn/internal/store"
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/mint-tl/values"
 )
 
 // Version is cairn's version.

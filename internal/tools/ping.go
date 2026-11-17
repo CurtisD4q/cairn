@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/mint-tl/values"
 )
 
 // Ping checks that a host answers and how quickly.
