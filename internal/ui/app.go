@@ -17,7 +17,7 @@ import (
 )
 
 // Version is Cairn's version.
-const Version = "0.2.0"
+const Version = "0.3.0"
 
 // Limits keep a case file small and its screens quick.
 const (
@@ -216,6 +216,7 @@ func (a *App) Items() []mint.HomeItem {
 	items := []mint.HomeItem{
 		{Icon: "◈", Label: "Workbench", Desc: "Your case, your tools and what they found", Open: a.hub},
 		{Icon: "◇", Label: "Case", Desc: "Targets, scope and notes", Open: a.caseScreen},
+		{Icon: "▤", Label: "Programs", Desc: "Every Mint program on this computer, in groups: choose one, then open it", Open: a.programsScreen},
 	}
 	items = append(items, a.packItems()...)
 	return append(items,
