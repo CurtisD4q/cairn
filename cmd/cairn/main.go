@@ -7,11 +7,18 @@ import (
 	"fmt"
 	"os"
 
+	warden "github.com/CurtisD4q/mint-warden"
+
 	"github.com/CurtisD4q/cairn/internal/store"
 	"github.com/CurtisD4q/cairn/internal/ui"
 )
 
 func main() {
+	// A guarded change (Harden this machine) runs Cairn again in the
+	// background to put things back if the change cuts the person off.
+	if warden.HandleArgs(os.Args[1:]) {
+		return
+	}
 	st, err := store.Open("")
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "cairn:", err)

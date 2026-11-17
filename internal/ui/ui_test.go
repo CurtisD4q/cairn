@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"github.com/CurtisD4q/cairn/internal/security"
+	"github.com/CurtisD4q/mint-tools/action"
 	"os"
 	"regexp"
 	"strconv"
@@ -10,10 +12,10 @@ import (
 
 	"github.com/CurtisD4q/mint-kit/runner"
 
-	"github.com/CurtisD4q/cairn/internal/scope"
 	"github.com/CurtisD4q/cairn/internal/store"
 	"github.com/CurtisD4q/cairn/internal/tools"
-	"github.com/CurtisD4q/cairn/internal/values"
+	"github.com/CurtisD4q/mint-tools/scope"
+	"github.com/CurtisD4q/mint-tools/values"
 )
 
 func newApp(t *testing.T) (*App, *store.Store) {
@@ -151,6 +153,17 @@ func TestEveryScreenDrawsAtSmallSizes(t *testing.T) {
 		screens["case"] = func() string { return a.caseScreen().FrameText(h, w) }
 		screens["log"] = func() string { return a.logScreen().FrameText(h, w) }
 		screens["guide"] = func() string { return a.guide().FrameText(h, w) }
+		for _, it := range a.Items() {
+			it := it
+			screens["home:"+it.Label] = func() string {
+				scr := it.Open()
+				if scr.Refresh != nil {
+					scr.Refresh(scr)
+				}
+				return scr.FrameText(h, w)
+			}
+		}
+		screens["hunt builder"] = func() string { return a.huntBuilder(security.Hunts()[0].Chain).FrameText(h, w) }
 		for _, tool := range tools.All() {
 			tool := tool
 			screens[tool.ID] = func() string { return a.toolScreen(tool, a.startInput(tool)).FrameText(h, w) }
@@ -442,5 +455,34 @@ func TestCommandsRunDirectlyInEnglish(t *testing.T) {
 	}
 	if !english {
 		t.Errorf("output is not forced to English, so the parsers would fail in other languages: %v", cmd.Env)
+	}
+}
+
+func TestHomeHasTheSiblings(t *testing.T) {
+	a, _ := newApp(t)
+	var labels []string
+	for _, it := range a.Items() {
+		labels = append(labels, it.Label)
+	}
+	want := "Workbench,Case,Something's wrong,Hunt in the logs,Health,Machines,Your keys,Harden this machine,Audit log,How this works"
+	if strings.Join(labels, ",") != want {
+		t.Fatal(strings.Join(labels, ","))
+	}
+	frame := plain(a.huntScreen().FrameText(30, 120))
+	for _, w := range []string{"Failed logins by address", "Who logged in", "Administrator commands", "Start from nothing", "Hunting only reads"} {
+		if !strings.Contains(frame, w) {
+			t.Errorf("hunts lack %q", w)
+		}
+	}
+}
+
+// What the siblings do lands in the open case's audit log.
+func TestSiblingsRecordIntoTheCase(t *testing.T) {
+	a, st := newApp(t)
+	caseRecorder{a}.Record(action.Entry{Time: time.Now(), Name: "Check: Failed logins", Risk: "read", Commands: []string{"journalctl -u ssh | grep -c x"}, Agreed: true})
+	caseRecorder{a}.Record(action.Entry{Time: time.Now(), Name: "Change the firewall", Risk: "change", Commands: []string{"ufw allow 22"}, Agreed: false, Error: "not agreed to"})
+	es, _ := st.Entries(a.Case().Name)
+	if len(es) != 2 || es[0].Scope != "reads only" || es[1].Scope != "not agreed" || es[1].Tool != "Change the firewall" {
+		t.Fatalf("%+v", es)
 	}
 }

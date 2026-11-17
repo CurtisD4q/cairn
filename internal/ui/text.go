@@ -1,8 +1,8 @@
 package ui
 
 import (
-	"github.com/CurtisD4q/cairn/internal/scope"
-	"github.com/CurtisD4q/cairn/internal/values"
+	"github.com/CurtisD4q/mint-tools/scope"
+	"github.com/CurtisD4q/mint-tools/values"
 	"strings"
 
 	"github.com/CurtisD4q/mint-kit"

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/cairn/internal/values"
+	"github.com/CurtisD4q/mint-tools/values"
 )
 
 // Whois looks up who registered a domain or address.

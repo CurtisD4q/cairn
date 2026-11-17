@@ -13,11 +13,11 @@ import (
 	"github.com/CurtisD4q/mint-kit/runner"
 
 	"github.com/CurtisD4q/cairn/internal/store"
-	"github.com/CurtisD4q/cairn/internal/values"
+	"github.com/CurtisD4q/mint-tools/values"
 )
 
 // Version is Cairn's version.
-const Version = "0.1.0"
+const Version = "0.2.0"
 
 // Limits keep a case file small and its screens quick.
 const (
@@ -32,12 +32,15 @@ type App struct {
 	mu   sync.Mutex
 	cs   *store.Case
 	ents []store.Entry
+
+	packs *packs
 }
 
 // New opens the store's current case, making one called "default" if there is
 // none.
 func New(st *store.Store) (*App, error) {
 	a := &App{st: st}
+	a.setupPacks()
 	name := st.Current()
 	if name == "" {
 		if names := st.List(); len(names) > 0 {
@@ -210,12 +213,15 @@ func (a *App) entries() []store.Entry {
 
 // Items is the home list.
 func (a *App) Items() []mint.HomeItem {
-	return []mint.HomeItem{
+	items := []mint.HomeItem{
 		{Icon: "◈", Label: "Workbench", Desc: "Your case, your tools and what they found", Open: a.hub},
 		{Icon: "◇", Label: "Case", Desc: "Targets, scope and notes", Open: a.caseScreen},
-		{Icon: "≡", Label: "Audit log", Desc: "Every command run in this case", Open: a.logScreen},
-		{Icon: "?", Label: "How this works", Desc: "A short guide, in plain words", Open: a.guide},
 	}
+	items = append(items, a.packItems()...)
+	return append(items,
+		mint.HomeItem{Icon: "≡", Label: "Audit log", Desc: "Everything done in this case, by every part of Cairn", Open: a.logScreen},
+		mint.HomeItem{Icon: "i", Label: "How this works", Desc: "A short guide, in plain words", Open: a.guide},
+	)
 }
 
 func (a *App) status() []mint.Badge {

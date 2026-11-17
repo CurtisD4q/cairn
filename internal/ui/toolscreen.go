@@ -8,10 +8,11 @@ import (
 	"github.com/CurtisD4q/mint-kit"
 	"github.com/CurtisD4q/mint-kit/runner"
 
-	"github.com/CurtisD4q/cairn/internal/scope"
+	"github.com/CurtisD4q/cairn/internal/security"
 	"github.com/CurtisD4q/cairn/internal/store"
 	"github.com/CurtisD4q/cairn/internal/tools"
-	"github.com/CurtisD4q/cairn/internal/values"
+	"github.com/CurtisD4q/mint-tools/scope"
+	"github.com/CurtisD4q/mint-tools/values"
 )
 
 // debPackage names the package that holds each program on Debian and Ubuntu,
@@ -515,6 +516,10 @@ func (s *session) sendTo(c *mint.Ctx, i int) {
 			}
 			add("Open in "+cand.Tool.Title+"   "+candText(cand), act{offer: o, cand: &cand, kind: "tool"})
 		}
+		add("Hunt for it in the logs   "+o.Text, act{offer: o, kind: "hunt"})
+		if o.HostText() != "" {
+			add("Save as a machine (connect, tunnel, copy)   "+o.HostText(), act{offer: o, kind: "machine"})
+		}
 		add("Add to the case's targets   "+o.Text, act{offer: o, kind: "add"})
 		add("Copy   "+o.Text, act{offer: o, kind: "copy"})
 	}
@@ -532,6 +537,10 @@ func (s *session) sendTo(c *mint.Ctx, i int) {
 		}
 	case "copy":
 		c.Copy(a.offer.Text, "the value")
+	case "hunt":
+		c.Push(s.a.huntBuilder(security.HuntFor(a.offer.Text)))
+	case "machine":
+		s.a.saveMachine(c, a.offer)
 	case "tool":
 		s.a.openTool(c, a.cand.Tool, a.cand.Input)
 	}

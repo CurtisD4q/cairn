@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/CurtisD4q/cairn/internal/values"
+	"github.com/CurtisD4q/mint-tools/values"
 )
 
 func fixture(t *testing.T, name string) string {

@@ -19,9 +19,26 @@ Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI libr
 
 - **One case, one target.** Type a target once. Every tool starts with it, in the form that tool needs (an address for `ping`, a web address for `curl`).
 - **Scope first.** List the networks, addresses and domains you may test. Before any tool that sends traffic runs, Cairn checks the target against that list. No scope set: it asks. Outside it: you must type the target out to go ahead, and the override is recorded.
-- **Send results on.** Select a row in a result (an open port, an IP in a trace, a name server) and open it in another tool, add it to the case, or copy it.
-- **Plain words, exact command.** Each tool explains itself beside its controls, and each choice says what it does. The exact command is always shown, so you can see and learn what is being run.
-- **Audit log and report.** Every command is logged with its time, target and scope result. Save the case as a Markdown report.
+- **Send results on.** Select a row in a result (an open port, an IP in a trace, a name server) and open it in another tool, hunt for it in the logs, save it as a machine, add it to the case, or copy it.
+- **Look for signs of intrusion.** *Something's wrong* starts from what you notice ("I think someone got in", "What can others reach here?") and runs read-only checks: failed logins, accounts with root's power, login keys changed lately, administrator commands, what is open to every network.
+- **Hunt in the logs.** Ready-made hunts (failed logins by address, who logged in, administrator commands) narrow the logs down step by step, showing what each step keeps and the command it makes.
+- **Keep the machines.** Save machines from results, check their host keys, connect with ssh, open tunnels.
+- **Harden this machine.** Accounts, permissions, the firewall and ssh settings, read-only until you choose Apply; a change that could cut off your own connection is refused or put back on its own unless you confirm you can still get in.
+- **Plain words, exact command.** Everything explains itself, and the exact command is always shown, so you can see and learn what is being run.
+- **One audit log and a report.** Everything done in the case, by every part of Cairn, is logged with its time, target and whether it was in scope or agreed to. Save the case as a Markdown report.
+
+## Built from the Mint packs
+
+Cairn is the cybersecurity program built from [mint-kit](https://github.com/CurtisD4q/mint-kit) and [mint-tools](https://github.com/CurtisD4q/mint-tools), with four packs as siblings:
+
+| Part of Cairn | Pack | What Cairn adds |
+|---|---|---|
+| Something's wrong, Health | [mint-lookout](https://github.com/CurtisD4q/mint-lookout) | Five security checks and two symptoms, as data |
+| Hunt in the logs | [mint-conduit](https://github.com/CurtisD4q/mint-conduit) | The ssh and sudo logs as sources, a "Pick out addresses" step, and three ready-made hunts |
+| Machines, Your keys | [mint-bridge](https://github.com/CurtisD4q/mint-bridge) | Saving a result as a machine, checked against the case's scope |
+| Harden this machine | [mint-warden](https://github.com/CurtisD4q/mint-warden) | Its lockout guard, served by Cairn itself |
+
+Every pack writes into the open case's audit log. The checks, values and scope rules come from mint-tools.
 
 ## Tools in this version
 
@@ -39,18 +56,18 @@ Tools that are not installed are listed as such, with the package name for Debia
 
 ## Install
 
-Cairn needs Go 1.21 or newer. It depends on the mint-kit library, which is a private repository, so tell Go to fetch it directly:
+Cairn needs Go 1.21 or newer. It depends on mint-kit, mint-tools and four packs, which are private repositories, so tell Go to fetch them directly:
 
 ```
 git clone https://github.com/CurtisD4q/cairn
 cd cairn
 export GOPRIVATE='github.com/CurtisD4q/*'
-go mod tidy          # first time only: fetches mint-kit and writes go.sum
+go mod tidy          # first time only: fetches the libraries and writes go.sum
 go build -o cairn ./cmd/cairn
 ./cairn
 ```
 
-Git must be able to read the mint-kit repository (an SSH key or `gh auth login`). Put the binary anywhere on your `PATH`.
+Git must be able to read those repositories (an SSH key or `gh auth login`). Put the binary anywhere on your `PATH`.
 
 ## Using it
 
@@ -76,6 +93,10 @@ Cases, audit logs and reports are in `~/.local/share/cairn/cases/` (or `$CAIRN_H
 - Programs are run directly, never through a shell. Targets are checked, and anything that could be taken for an option (a leading `-`) is refused; every command puts the target after `--`.
 - The scope check judges text only. It does not resolve names, so a domain cannot be matched against an address range; use the address, or add the domain.
 - Cairn helps you stay within your permission. It does not give you any. Only test what you are authorised to test.
+
+## Not tested here
+
+ufw, systemd actions and a live ssh server were not available on the machine Cairn was built on, so those paths are tested against saved output only. Each pack's README says the same for its part.
 
 ## Accessibility: where it stands
 

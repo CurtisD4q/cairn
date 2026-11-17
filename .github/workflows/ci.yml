@@ -16,9 +16,9 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: stable
-      # mint-kit is a private repository. Add a read-only token for it
+      # mint-kit, mint-tools and the packs are private repositories. Add a read-only token for them
       # as the repository secret MINT_READ_TOKEN.
-      - name: Let Go read mint-kit
+      - name: Let Go read the Mint libraries
         run: git config --global url."https://x-access-token:${{ secrets.MINT_READ_TOKEN }}@github.com/".insteadOf "https://github.com/"
       - name: Install the tools the live tests run
         run: sudo apt-get update && sudo apt-get install -y nmap dnsutils whois traceroute iproute2 iputils-ping curl

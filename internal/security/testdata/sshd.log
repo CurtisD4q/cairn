@@ -1,0 +1,8 @@
+Failed password for root from 198.51.100.23 port 52314 ssh2
+Failed password for root from 198.51.100.23 port 52320 ssh2
+Invalid user admin from 203.0.113.9 port 40022
+Failed password for invalid user admin from 203.0.113.9 port 40022 ssh2
+Failed password for root from 198.51.100.23 port 52331 ssh2
+Accepted publickey for deploy from 192.0.2.10 port 51000 ssh2: ED25519 SHA256:abc
+Accepted publickey for deploy from 192.0.2.10 port 51010 ssh2: ED25519 SHA256:abc
+Accepted password for alice from 192.0.2.44 port 50111 ssh2

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/cairn/internal/values"
+	"github.com/CurtisD4q/mint-tools/values"
 )
 
 // Dig asks the name system about a domain.
