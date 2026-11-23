@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
 )
 
 // Curl reads a web server's reply headers.

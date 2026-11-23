@@ -6,16 +6,17 @@ package security
 
 import (
 	"fmt"
+	txt "github.com/CurtisD4q/pmin-base/text"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
-	conduit "github.com/CurtisD4q/mint-conduit"
-	lookout "github.com/CurtisD4q/mint-lookout"
-	"github.com/CurtisD4q/mint-tools/action"
-	"github.com/CurtisD4q/mint-tools/words"
+	conduit "github.com/CurtisD4q/pmin-conduit"
+	lookout "github.com/CurtisD4q/pmin-lookout"
+	"github.com/CurtisD4q/pmin-tools/action"
+	"github.com/CurtisD4q/pmin-tools/words"
 )
 
 const probeTimeout = 20 * time.Second
@@ -115,7 +116,7 @@ func judgeFailedLogins(r action.Result, _ lookout.Params) lookout.Finding {
 	case n == 0:
 		return lookout.Finding{Status: lookout.OK, Summary: "No failed logins in the last day."}
 	case n < 50:
-		return lookout.Finding{Status: lookout.Warn, Summary: fmt.Sprintf("%d failed login%s in the last day.", n, plural(n)),
+		return lookout.Finding{Status: lookout.Warn, Summary: fmt.Sprintf("%d failed login%s in the last day.", n, txt.S(n)),
 			Next: "Hunt in the logs (Failed logins by address) to see who is trying."}
 	}
 	return lookout.Finding{Status: lookout.Bad, Summary: fmt.Sprintf("%d failed logins in the last day: someone is guessing passwords.", n),
@@ -152,7 +153,7 @@ func judgeNewKeys(r action.Result, _ lookout.Params) lookout.Finding {
 	if len(ls) == 0 {
 		return lookout.Finding{Status: lookout.OK, Summary: "No login keys changed in the last week."}
 	}
-	return lookout.Finding{Status: lookout.Warn, Summary: fmt.Sprintf("%d login key file%s changed in the last week.", len(ls), plural(len(ls))), Details: ls,
+	return lookout.Finding{Status: lookout.Warn, Summary: fmt.Sprintf("%d login key file%s changed in the last week.", len(ls), txt.S(len(ls))), Details: ls,
 		Next: "Check each one with its owner: an added key lets someone log in without a password."}
 }
 
@@ -176,7 +177,7 @@ func judgeSudo(r action.Result, _ lookout.Params) lookout.Finding {
 	if len(cmds) > 10 {
 		start = len(cmds) - 10
 	}
-	return lookout.Finding{Status: lookout.OK, Summary: fmt.Sprintf("%d administrator command%s in the last day.", len(cmds), plural(len(cmds))), Details: cmds[start:],
+	return lookout.Finding{Status: lookout.OK, Summary: fmt.Sprintf("%d administrator command%s in the last day.", len(cmds), txt.S(len(cmds))), Details: cmds[start:],
 		Next: "Read them: anything you did not expect is worth asking about."}
 }
 
@@ -198,7 +199,7 @@ func judgeOpenToAll(r action.Result, _ lookout.Params) lookout.Finding {
 	if len(open) == 0 {
 		return lookout.Finding{Status: lookout.OK, Summary: "Nothing is open to every network; programs listen only on this machine or chosen addresses."}
 	}
-	f := lookout.Finding{Status: lookout.OK, Summary: fmt.Sprintf("%d port%s open to every network: %s.", len(open), plural(len(open)), strings.Join(open, ", ")), Details: open}
+	f := lookout.Finding{Status: lookout.OK, Summary: fmt.Sprintf("%d port%s open to every network: %s.", len(open), txt.S(len(open)), strings.Join(open, ", ")), Details: open}
 	for _, o := range open {
 		if !strings.HasSuffix(o, ":22") {
 			f.Status = lookout.Warn
@@ -206,13 +207,6 @@ func judgeOpenToAll(r action.Result, _ lookout.Params) lookout.Finding {
 		}
 	}
 	return f
-}
-
-func plural(n int) string {
-	if n == 1 {
-		return ""
-	}
-	return "s"
 }
 
 // AddressesFilter is a Conduit step that keeps only the IPv4 addresses in

@@ -5,31 +5,19 @@ on:
     branches: [main]
   pull_request:
 
-env:
-  GOPRIVATE: github.com/CurtisD4q/*
+permissions:
+  contents: read
 
+# The shared pmin CI: gofmt, vet, tests with the race detector, staticcheck
+# and the layering check. See CurtisD4q/pmin/.github/workflows/go.yml. The
+# live tests skip any program (nmap, dig, whois, traceroute) not installed.
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # Leave no login behind: git must use MINT_READ_TOKEN for the
-          # other Mint repositories, not this job's token, which reads only this one.
-          persist-credentials: false
-      - uses: actions/setup-go@v5
-        with:
-          go-version: stable
-      # mint-kit, mint-tools and the packs are private repositories. Add a read-only token for them
-      # as the repository secret MINT_READ_TOKEN.
-      - name: Let Go read the Mint libraries
-        run: git config --global url."https://x-access-token:${{ secrets.MINT_READ_TOKEN }}@github.com/".insteadOf "https://github.com/"
-      - name: Install the tools the live tests run
-        run: sudo apt-get update && sudo apt-get install -y nmap dnsutils whois traceroute iproute2 iputils-ping curl
-      - run: go mod tidy
-      - run: test -z "$(gofmt -l .)"
-      - run: go vet ./...
-      - run: go test ./...
+  go:
+    uses: CurtisD4q/pmin/.github/workflows/go.yml@main
+    secrets: inherit
+    with:
+      go: '["stable", "go.mod"]'
+      extra: go build -o cairn ./cmd/cairn
 
   emacs:
     runs-on: ubuntu-latest

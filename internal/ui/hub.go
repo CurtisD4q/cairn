@@ -1,9 +1,9 @@
 package ui
 
 import (
-	"fmt"
+	txt "github.com/CurtisD4q/pmin-base/text"
 
-	"github.com/CurtisD4q/mint-kit"
+	"github.com/CurtisD4q/pmin-kit"
 
 	"github.com/CurtisD4q/cairn/internal/tools"
 )
@@ -40,7 +40,7 @@ func (a *App) caseSummary() []mint.Section {
 	name, active, targets, rules, _ := a.snapshot()
 	scopeText := "not set"
 	if n := len(rules); n > 0 {
-		scopeText = plural(n, "rule")
+		scopeText = txt.Count(n, "rule")
 	}
 	top := []mint.Row{
 		mint.Value(mint.ValueOpts{Label: "Name", Get: func() string { return name }, OnActivate: a.switchCase}),
@@ -164,11 +164,4 @@ func (a *App) switchCase(c *mint.Ctx) {
 		return
 	}
 	c.Toast("Now working in case " + name)
-}
-
-func plural(n int, w string) string {
-	if n == 1 {
-		return "1 " + w
-	}
-	return fmt.Sprintf("%d %ss", n, w)
 }

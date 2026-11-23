@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	warden "github.com/CurtisD4q/mint-warden"
+	warden "github.com/CurtisD4q/pmin-warden"
 
 	"github.com/CurtisD4q/cairn/internal/store"
 	"github.com/CurtisD4q/cairn/internal/ui"

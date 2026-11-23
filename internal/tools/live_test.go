@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
 )
 
 // These run the real programs against this computer only. They check that

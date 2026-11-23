@@ -13,20 +13,23 @@ import (
 	"strings"
 	"time"
 
-	mint "github.com/CurtisD4q/mint-kit"
-	"github.com/CurtisD4q/mint-kit/layouts"
+	mint "github.com/CurtisD4q/pmin-kit"
+	"github.com/CurtisD4q/pmin-kit/layouts"
 
-	bridge "github.com/CurtisD4q/mint-bridge"
-	bridgeui "github.com/CurtisD4q/mint-bridge/ui"
-	conduit "github.com/CurtisD4q/mint-conduit"
-	conduitui "github.com/CurtisD4q/mint-conduit/ui"
-	lookout "github.com/CurtisD4q/mint-lookout"
-	lookoutui "github.com/CurtisD4q/mint-lookout/ui"
-	"github.com/CurtisD4q/mint-tools/action"
-	"github.com/CurtisD4q/mint-tools/run"
-	"github.com/CurtisD4q/mint-tools/scope"
-	"github.com/CurtisD4q/mint-tools/values"
-	wardenui "github.com/CurtisD4q/mint-warden/ui"
+	"github.com/CurtisD4q/pmin-base/values"
+	bridge "github.com/CurtisD4q/pmin-bridge"
+	bridgeui "github.com/CurtisD4q/pmin-bridge/ui"
+	conduit "github.com/CurtisD4q/pmin-conduit"
+	conduitui "github.com/CurtisD4q/pmin-conduit/ui"
+	lookout "github.com/CurtisD4q/pmin-lookout"
+	lookoutui "github.com/CurtisD4q/pmin-lookout/ui"
+	netfilter "github.com/CurtisD4q/pmin-netfilter"
+	serial "github.com/CurtisD4q/pmin-serial"
+	"github.com/CurtisD4q/pmin-tools/action"
+	"github.com/CurtisD4q/pmin-tools/run"
+	"github.com/CurtisD4q/pmin-tools/scope"
+	warden "github.com/CurtisD4q/pmin-warden"
+	wardenui "github.com/CurtisD4q/pmin-warden/ui"
 
 	"github.com/CurtisD4q/cairn/internal/security"
 	"github.com/CurtisD4q/cairn/internal/store"
@@ -61,7 +64,17 @@ func (r caseRecorder) Record(e action.Entry) error {
 	return nil
 }
 
+// plug gives the packs the engines that do their heavy work. The packs use
+// only the pmin foundation and never import an engine, so the program
+// chooses: Warden reads and changes the firewall with pmin-netfilter, and
+// Bridge finds serial ports and opens consoles with pmin-serial.
+func plug() {
+	warden.Net = netfilter.Engine{}
+	bridge.Serial = serial.Engine{}
+}
+
 func (a *App) setupPacks() {
+	plug()
 	exe, _ := os.Executable()
 	home := filepath.Dir(a.st.Dir())
 	p := &packs{exec: run.Local{}, program: exe, home: home}

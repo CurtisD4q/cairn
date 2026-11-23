@@ -1,6 +1,6 @@
 package ui
 
-import "github.com/CurtisD4q/mint-kit"
+import "github.com/CurtisD4q/pmin-kit"
 
 // guide is the short orientation: a few lines, in plain words.
 func (a *App) guide() *mint.Screen {

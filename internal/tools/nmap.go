@@ -2,10 +2,11 @@ package tools
 
 import (
 	"fmt"
+	txt "github.com/CurtisD4q/pmin-base/text"
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
 )
 
 // Nmap finds which ports are open on a host or a network.
@@ -124,15 +125,15 @@ func parseNmap(out string, in Input) Result {
 	case up == 0 && len(res.Rows) == 0:
 		res.Summary = "No host answered. It may be off, unreachable, or hiding; try skipping the aliveness check."
 	case len(res.Rows) == 0:
-		res.Summary = fmt.Sprintf("%s up, but no open ports among those checked.", plural(up, "host"))
+		res.Summary = fmt.Sprintf("%s up, but no open ports among those checked.", txt.Count(up, "host"))
 	default:
-		res.Summary = fmt.Sprintf("%s up, %s open.", plural(up, "host"), plural(len(res.Rows)-maybe, "port"))
+		res.Summary = fmt.Sprintf("%s up, %s open.", txt.Count(up, "host"), txt.Count(len(res.Rows)-maybe, "port"))
 		if maybe > 0 {
 			res.Summary += fmt.Sprintf(" %d more may be open (no answer either way).", maybe)
 		}
 	}
 	if hidden > 0 {
-		res.Summary += fmt.Sprintf(" %s filtered (blocked by a firewall) and not listed.", plural(hidden, "port"))
+		res.Summary += fmt.Sprintf(" %s filtered (blocked by a firewall) and not listed.", txt.Count(hidden, "port"))
 	}
 	if len(res.Rows) > 0 && !in.on("versions") {
 		res.Summary += " Service names are guesses from the port number; turn on Identify software to check."
@@ -148,11 +149,4 @@ func isWeb(service string) bool {
 		return true
 	}
 	return false
-}
-
-func plural(n int, word string) string {
-	if n == 1 {
-		return "1 " + word
-	}
-	return itoa(n) + " " + word + "s"
 }

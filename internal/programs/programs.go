@@ -19,9 +19,9 @@ import (
 	"sync"
 	"time"
 
-	gen "github.com/CurtisD4q/mint-gen"
-	"github.com/CurtisD4q/mint-spec"
-	"github.com/CurtisD4q/mint-tools/action"
+	"github.com/CurtisD4q/pmin-tools/action"
+	gen "github.com/CurtisD4q/pmin-wrap/v2/gen"
+	"github.com/CurtisD4q/pmin-wrap/v2/spec"
 )
 
 // Item is one screen an app opens at.

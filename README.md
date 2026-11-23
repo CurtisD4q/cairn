@@ -2,7 +2,7 @@
 
 A terminal workbench for security work. Keep a **case**, say what you are **allowed to test**, run the everyday tools from one place, and **send what one finds to the next**, so you stop retyping targets and hopping between windows.
 
-Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI library), with its own look and layout. It runs in any modern terminal and inside Emacs.
+Built with [pmin](https://github.com/CurtisD4q/pmin): the screens are [pmin-kit](https://github.com/CurtisD4q/pmin-kit), with its own look and layout. It runs in any modern terminal and inside Emacs.
 
 ![The workbench: the case, the tools grouped by what they do, and recent runs](screenshots/workbench.png)
 
@@ -32,18 +32,21 @@ Built on [mint-kit](https://github.com/CurtisD4q/mint-kit) (the terminal UI libr
 - **Plain words, exact command.** Everything explains itself, and the exact command is always shown, so you can see and learn what is being run.
 - **One audit log and a report.** Everything done in the case, by every part of cairn, is logged with its time, target and whether it was in scope or agreed to. Save the case as a Markdown report.
 
-## Built from the Mint packs
+## Built with pmin
 
-cairn is the cybersecurity program built from [mint-kit](https://github.com/CurtisD4q/mint-kit) and [mint-tools](https://github.com/CurtisD4q/mint-tools), with four packs as siblings:
+cairn is a program built with pmin (tier `example` in `pmin.json`). It uses the pmin foundation, four function modules and two engines, and no other program:
 
-| Part of cairn | Pack | What cairn adds |
+| Part of cairn | Module | What cairn adds |
 |---|---|---|
-| Something's wrong, Health | [mint-lookout](https://github.com/CurtisD4q/mint-lookout) | Five security checks and two symptoms, as data |
-| Hunt in the logs | [mint-conduit](https://github.com/CurtisD4q/mint-conduit) | The ssh and sudo logs as sources, a "Pick out addresses" step, and three ready-made hunts |
-| Machines, Your keys | [mint-bridge](https://github.com/CurtisD4q/mint-bridge) | Saving a result as a machine, checked against the case's scope |
-| Harden this machine | [mint-warden](https://github.com/CurtisD4q/mint-warden) | Its lockout guard, served by cairn itself |
+| Something's wrong, Health | [pmin-lookout](https://github.com/CurtisD4q/pmin-lookout) | Five security checks and two symptoms, as data |
+| Hunt in the logs | [pmin-conduit](https://github.com/CurtisD4q/pmin-conduit) | The ssh and sudo logs as sources, a "Pick out addresses" step, and three ready-made hunts |
+| Machines, Your keys | [pmin-bridge](https://github.com/CurtisD4q/pmin-bridge) | Saving a result as a machine, checked against the case's scope |
+| Harden this machine | [pmin-warden](https://github.com/CurtisD4q/pmin-warden) | Its lockout guard, served by cairn itself |
+| Programs | [pmin-wrap](https://github.com/CurtisD4q/pmin-wrap) | Any program in the Mint layout, held to the case's scope |
 
-Every pack writes into the open case's audit log. The checks, values and scope rules come from mint-tools.
+The modules never import an engine, so cairn plugs them in itself (`plug` in `internal/ui/packs.go`): Warden reads and changes the firewall with [pmin-netfilter](https://github.com/CurtisD4q/pmin-netfilter), and Bridge opens serial consoles with [pmin-serial](https://github.com/CurtisD4q/pmin-serial).
+
+Every module writes into the open case's audit log. The screens come from pmin-kit; the checks, values, wording and scope rules from pmin-base and pmin-tools.
 
 ## Tools in this version
 
@@ -61,7 +64,7 @@ Tools that are not installed are listed as such, with the package name for Debia
 
 ## Programs
 
-*Programs* opens any command-line program inside cairn, in the Mint layout: its options in panes, the exact command, Run, and what came back, the way [mint-wrap](https://github.com/CurtisD4q/mint-wrap) shows it, in cairn's own frame.
+*Programs* opens any command-line program inside cairn, in the Mint layout: its options in panes, the exact command, Run, and what came back, the way [pmin-wrap](https://github.com/CurtisD4q/pmin-wrap) shows it, in cairn's own frame.
 
 ![nmap opened inside cairn: its options, targets, output and Run in panes, with the case's scope above](screenshots/inside.png)
 
@@ -75,7 +78,7 @@ cairn looks for Mint programs in `~/.local/bin/mint-interfaces`, `~/.local/bin`,
 
 ## Install
 
-cairn needs Go 1.21 or newer. It depends on mint-kit, mint-tools and four packs, which are private repositories, so tell Go to fetch them directly:
+cairn needs Go 1.21 or newer. It depends on the pmin libraries, which are private repositories, so tell Go to fetch them directly:
 
 ```
 git clone https://github.com/CurtisD4q/cairn
@@ -126,7 +129,7 @@ Not yet done: it has **not been tested with a screen reader or braille display**
 ## Development
 
 ```
-go work init . ../mint-kit   # to build against a local checkout; go.work is git-ignored
+go work init . ../pmin-kit   # to build against a local checkout; go.work is git-ignored
 go vet ./... && go test ./...
 emacs --batch -L emacs -l emacs/cairn-tests.el -f ert-run-tests-batch-and-exit
 ```
@@ -135,4 +138,4 @@ Tests include live runs of `ss`, `curl`, `ping`, `traceroute` and `nmap` against
 
 ## Licence
 
-Apache-2.0, as mint-kit.
+Apache-2.0, as pmin-kit.

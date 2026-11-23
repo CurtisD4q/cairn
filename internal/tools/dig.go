@@ -1,10 +1,11 @@
 package tools
 
 import (
+	txt "github.com/CurtisD4q/pmin-base/text"
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
 )
 
 // Dig asks the name system about a domain.
@@ -71,7 +72,7 @@ func parseDig(out string, _ Input) Result {
 	if len(res.Rows) == 0 {
 		res.Summary = "No records found. The name may not exist, or has none of this type."
 	} else {
-		res.Summary = plural(len(res.Rows), "record") + " found."
+		res.Summary = txt.Count(len(res.Rows), "record") + " found."
 	}
 	return res
 }

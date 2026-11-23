@@ -5,10 +5,10 @@ import (
 	"strings"
 	"testing"
 
-	conduit "github.com/CurtisD4q/mint-conduit"
-	lookout "github.com/CurtisD4q/mint-lookout"
-	"github.com/CurtisD4q/mint-tools/action"
-	"github.com/CurtisD4q/mint-tools/run"
+	conduit "github.com/CurtisD4q/pmin-conduit"
+	lookout "github.com/CurtisD4q/pmin-lookout"
+	"github.com/CurtisD4q/pmin-tools/action"
+	"github.com/CurtisD4q/pmin-tools/run"
 )
 
 func judge(t *testing.T, id string, r action.Result) lookout.Finding {

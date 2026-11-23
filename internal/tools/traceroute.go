@@ -2,11 +2,12 @@ package tools
 
 import (
 	"fmt"
+	txt "github.com/CurtisD4q/pmin-base/text"
 	"regexp"
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
 )
 
 // Traceroute shows the path to a host.
@@ -59,9 +60,9 @@ func parseTraceroute(out string, _ Input) Result {
 	case len(res.Rows) == 0:
 		res.Summary = "No path found. The host name may not exist, or the network may be down."
 	case silent > 0:
-		res.Summary = fmt.Sprintf("%s, %d did not reply (often a firewall; the path still continues).", plural(len(res.Rows), "stop"), silent)
+		res.Summary = fmt.Sprintf("%s, %d did not reply (often a firewall; the path still continues).", txt.Count(len(res.Rows), "stop"), silent)
 	default:
-		res.Summary = plural(len(res.Rows), "stop") + " to the target."
+		res.Summary = txt.Count(len(res.Rows), "stop") + " to the target."
 	}
 	return res
 }

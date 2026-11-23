@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/CurtisD4q/mint-tools/run"
+	"github.com/CurtisD4q/pmin-tools/run"
 )
 
 func script(t *testing.T, path, body string) {

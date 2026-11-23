@@ -1,11 +1,12 @@
 package tools
 
 import (
+	txt "github.com/CurtisD4q/pmin-base/text"
 	"regexp"
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
 )
 
 // Ss lists what this computer is listening on.
@@ -71,7 +72,7 @@ func parseSs(out string, _ Input) Result {
 	if len(res.Rows) == 0 {
 		res.Summary = "Nothing is listening, or the list could not be read."
 	} else {
-		res.Summary = plural(len(res.Rows), "listening port") + "."
+		res.Summary = txt.Count(len(res.Rows), "listening port") + "."
 	}
 	return res
 }

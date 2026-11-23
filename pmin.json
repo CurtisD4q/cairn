@@ -1,0 +1,20 @@
+{
+  "name": "cairn",
+  "module": "github.com/CurtisD4q/cairn",
+  "tier": "example",
+  "summary": "A security workbench built with pmin: cases, scope, tools, intrusion checks and hardening",
+  "audience": "user",
+  "requires": [
+    "pmin-base",
+    "pmin-bridge",
+    "pmin-conduit",
+    "pmin-kit",
+    "pmin-lookout",
+    "pmin-netfilter",
+    "pmin-serial",
+    "pmin-tools",
+    "pmin-warden",
+    "pmin-wrap"
+  ],
+  "status": "v0"
+}

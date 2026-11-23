@@ -1,10 +1,11 @@
 package tools
 
 import (
+	txt "github.com/CurtisD4q/pmin-base/text"
 	"strings"
 	"time"
 
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
 )
 
 // Whois looks up who registered a domain or address.
@@ -73,7 +74,7 @@ func parseWhois(out string, _ Input) Result {
 	if len(res.Rows) == 0 {
 		res.Summary = "No registration details found. The name or address may not be registered, or the lookup may have failed."
 	} else {
-		res.Summary = plural(len(res.Rows), "detail") + " found."
+		res.Summary = txt.Count(len(res.Rows), "detail") + " found."
 	}
 	return res
 }

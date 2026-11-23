@@ -11,13 +11,13 @@ import (
 	"sync"
 	"time"
 
-	mint "github.com/CurtisD4q/mint-kit"
+	mint "github.com/CurtisD4q/pmin-kit"
 
-	appkit "github.com/CurtisD4q/mint-appkit"
-	"github.com/CurtisD4q/mint-spec"
-	"github.com/CurtisD4q/mint-tools/action"
-	"github.com/CurtisD4q/mint-tools/scope"
-	"github.com/CurtisD4q/mint-tools/values"
+	"github.com/CurtisD4q/pmin-base/values"
+	"github.com/CurtisD4q/pmin-tools/action"
+	"github.com/CurtisD4q/pmin-tools/scope"
+	appkit "github.com/CurtisD4q/pmin-wrap/v2/appkit"
+	"github.com/CurtisD4q/pmin-wrap/v2/spec"
 
 	"github.com/CurtisD4q/cairn/internal/store"
 )

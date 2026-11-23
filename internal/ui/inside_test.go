@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	appkit "github.com/CurtisD4q/mint-appkit"
-	"github.com/CurtisD4q/mint-spec"
+	appkit "github.com/CurtisD4q/pmin-wrap/v2/appkit"
+	"github.com/CurtisD4q/pmin-wrap/v2/spec"
 )
 
 func TestTargetsInACommand(t *testing.T) {
