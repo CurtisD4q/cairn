@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/CurtisD4q/pmin-base/selfinstall"
 	warden "github.com/CurtisD4q/pmin-warden"
 
 	"github.com/CurtisD4q/cairn/internal/store"
@@ -14,6 +15,12 @@ import (
 )
 
 func main() {
+	// `cairn install` puts this program on the PATH, with cairn.el beside
+	// it; `cairn uninstall` takes them off again.
+	if ok, code := selfinstall.Handle(selfinstall.Program{Name: "cairn", Files: []string{"emacs/cairn.el"},
+		After: "For Emacs, add to your init file: (load \"{data}/cairn.el\")"}, os.Args[1:], os.Stdout, os.Stderr); ok {
+		os.Exit(code)
+	}
 	// A guarded change (Harden this machine) runs cairn again in the
 	// background to put things back if the change cuts the person off.
 	if warden.HandleArgs(os.Args[1:]) {
