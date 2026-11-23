@@ -2,10 +2,14 @@ github.com/CurtisD4q/pmin-base v0.0.0-20261122210958-3f655e147c59 h1:klCDraHyXNs
 github.com/CurtisD4q/pmin-base v0.0.0-20261122210958-3f655e147c59/go.mod h1:HN1tNRcYB9Xb0Zgji5fy0moaCgHZi8mDrlatMRr1J00=
 github.com/CurtisD4q/pmin-bridge v0.0.0-20261122205843-0f81c05bd6f3 h1:ewAF+8rrCt7IW9hvMu3/VcpxjGjnVqdiihisAp7G7fQ=
 github.com/CurtisD4q/pmin-bridge v0.0.0-20261122205843-0f81c05bd6f3/go.mod h1:fhchfnC7edsuva8Nn53I83XnJwZ4ERPAjqK2m1w1dKU=
+github.com/CurtisD4q/pmin-bridge v0.0.0-20261123132806-1f7d03b78c72 h1:0N2C+s1Wl2fWxZQUhFOeyCyUFMeP4bAfnlwuU6aL1R4=
+github.com/CurtisD4q/pmin-bridge v0.0.0-20261123132806-1f7d03b78c72/go.mod h1:ZjiIPAs90JbR2ceQz0fqd9sgot5ORMvVKwWEesh7n7M=
 github.com/CurtisD4q/pmin-conduit v0.0.0-20261122210122-5097b53db771 h1:P4sse8GFdVYqVyv9EgoZzSZWe+LEfAovrzhXaPdHqpQ=
 github.com/CurtisD4q/pmin-conduit v0.0.0-20261122210122-5097b53db771/go.mod h1:lzKFFw9l28pGDM50B8dJRdSLX+yC27XJiclasQtlAOU=
 github.com/CurtisD4q/pmin-contracts v0.0.0-20261123013655-06290e2b1c5b h1:iEbZOQ/9ps/a9SOnmp8/wbPpOsUNnf/KS0mkru3vq3U=
 github.com/CurtisD4q/pmin-contracts v0.0.0-20261123013655-06290e2b1c5b/go.mod h1:V51I9TvLKOmEvbI8eG6lxnqBSquWMPPUvjinqnHyB90=
+github.com/CurtisD4q/pmin-contracts v0.0.0-20261123132359-dddca78a62af h1:UnSkkytiPO6bq+99d491s63HA9wCuVP7Qn+xCsCCSqo=
+github.com/CurtisD4q/pmin-contracts v0.0.0-20261123132359-dddca78a62af/go.mod h1:V51I9TvLKOmEvbI8eG6lxnqBSquWMPPUvjinqnHyB90=
 github.com/CurtisD4q/pmin-jobhealth v0.0.0-20261122204344-b571a5bfd18b h1:HqyqmYz0fhep4Zcl4+PlJ4tLpEl2jchxC1m0f2b3cJw=
 github.com/CurtisD4q/pmin-jobhealth v0.0.0-20261122204344-b571a5bfd18b/go.mod h1:ey9H7uxt91jpFomnRH79Rk5kN/3vUUcvqXvvkZymH6I=
 github.com/CurtisD4q/pmin-kit v0.0.0-20261122211532-03f96c11a7ce h1:/I6RzqnesZECypsB/ACrIdIuJLSWhLtNKfgW52Qwo8A=
@@ -22,5 +26,7 @@ github.com/CurtisD4q/pmin-tools v0.0.0-20261122210950-258e432ca1b6 h1:1daZakouDC
 github.com/CurtisD4q/pmin-tools v0.0.0-20261122210950-258e432ca1b6/go.mod h1:ZvPqdmVUfTQiCbnbxuA2cYWEvtzBtC0YGiu80DC6V7Q=
 github.com/CurtisD4q/pmin-warden v0.0.0-20261122205925-b64721a000de h1:3AoGnM0UL9OaWeW3596685+C8rLD2qlN7dakFYX5AbY=
 github.com/CurtisD4q/pmin-warden v0.0.0-20261122205925-b64721a000de/go.mod h1:khlGrzGaq0e93fpVmYfWwzhFmn4PnGZmGDyARcw6dc0=
+github.com/CurtisD4q/pmin-warden v0.0.0-20261123132451-c80238c75f5b h1:N6MrShbo6W4+ipFuf+mElJPV03eH0RraFJOtlyXVkhg=
+github.com/CurtisD4q/pmin-warden v0.0.0-20261123132451-c80238c75f5b/go.mod h1:G+zRSajCDgoIPWccWdXQhkSPOgnmQMBNdYFk7U8QiKc=
 github.com/CurtisD4q/pmin-wrap/v2 v2.0.1-0.20261122211534-5f24c99d83a7 h1:CeC5U33KbumbXgBKB4CxP/5cpXgU76mzk3SiBo0meWE=
 github.com/CurtisD4q/pmin-wrap/v2 v2.0.1-0.20261122211534-5f24c99d83a7/go.mod h1:+RyNVFSufLkHTdKFvAAlDUmosIrnkg85Qd+YYvTbheA=
