@@ -89,6 +89,19 @@ go build -o cairn ./cmd/cairn
 ./cairn
 ```
 
+To clone and build over SSH instead of HTTPS, tell git once to use SSH for every GitHub address. Go fetches the pmin libraries with git, so this covers them too:
+
+```
+git config --global url."git@github.com:".insteadOf "https://github.com/"
+git clone git@github.com:CurtisD4q/cairn.git
+cd cairn
+export GOPRIVATE='github.com/CurtisD4q/*'
+go mod tidy
+go build -o cairn ./cmd/cairn
+```
+
+Your SSH key needs read access to cairn and to the pmin repositories it uses. `ssh -T git@github.com` should greet you by name.
+
 Git must be able to read those repositories (an SSH key or `gh auth login`). Put the binary anywhere on your `PATH`.
 
 ## Using it
