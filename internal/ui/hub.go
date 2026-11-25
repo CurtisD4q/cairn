@@ -13,7 +13,7 @@ const hubHints = " ↑↓ move   ⏎ open   b back   q quit "
 // hub is the workbench: the case on the left, the tools in the middle and
 // what has just been run on the right, side by side.
 func (a *App) hub() *mint.Screen {
-	s := &mint.Screen{Icon: "◈", Title: "Workbench", TopTitle: "Case", TopWidth: 1, Hints: hubHints, SectionSpacing: 1}
+	s := &mint.Screen{Icon: "◈", Title: "Workbench", TopTitle: "Case", TopWidth: 1, Hints: hubHints, SectionSpacing: 1, Boxed: true}
 	s.Refresh = func(s *mint.Screen) {
 		s.Sections = a.caseSummary()
 		s.Banner = a.banner()

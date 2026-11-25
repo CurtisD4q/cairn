@@ -80,7 +80,7 @@ func (a *App) toolScreen(t tools.Tool, in tools.Input) *mint.Screen {
 		s.opts[k] = v
 	}
 	scr := &mint.Screen{
-		Icon: "▸", Title: t.Title, TopTitle: "Run", Hints: toolHints, TopWidth: 1.1, Weight: 0.5, SectionSpacing: 1,
+		Icon: "▸", Title: t.Title, TopTitle: "Run", Hints: toolHints, TopWidth: 1.1, Weight: 0.5, SectionSpacing: 1, Boxed: true,
 		Poll:   func(*mint.Screen) bool { return s.poll() },
 		Status: s.badges,
 	}
