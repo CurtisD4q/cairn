@@ -2,6 +2,8 @@
 
 A terminal workbench for security work. Keep a **case**, say what you are **allowed to test**, run the everyday tools from one place, and **send what one finds to the next**, so you stop retyping targets and hopping between windows.
 
+**Install:** `curl -fsSL https://raw.githubusercontent.com/CurtisD4q/cairn/main/install.sh | sh` (Linux and macOS; [more ways below](#install)).
+
 Built with [pmin](https://github.com/CurtisD4q/pmin): the screens are [pmin-kit](https://github.com/CurtisD4q/pmin-kit), with its own look and layout. It runs in any modern terminal and inside Emacs.
 
 ![The workbench: the case, the tools grouped by what they do, and recent runs](screenshots/workbench.png)
@@ -78,21 +80,21 @@ cairn looks for Mint programs in `~/.local/bin/mint-interfaces`, `~/.local/bin`,
 
 ## Install
 
-Download, check and install the latest release in one go (Linux and macOS):
+One command downloads the latest release, checks it against its checksum and installs it:
 
 ```
-gh api repos/CurtisD4q/cairn/contents/install.sh -H 'Accept: application/vnd.github.raw' | sh
+curl -fsSL https://raw.githubusercontent.com/CurtisD4q/cairn/main/install.sh | sh
 ```
 
-cairn's repository is public, so `curl -fsSL https://raw.githubusercontent.com/CurtisD4q/cairn/main/install.sh | sh` works too. The first way needs the [GitHub CLI](https://cli.github.com), logged in (`gh auth login`). Add `-s -- --system` after `sh` to install for everyone in `/usr/local`.
+That is the whole job: no Go, no source checkout and no access to any other repository is needed. `cairn` goes into `~/.local/bin`, with `cairn.el` for Emacs beside its data. If that folder is not on your PATH, the installer prints the line to add. After that, run `cairn` from anywhere. To install for everyone in `/usr/local` instead, add `-s -- --system` after `sh`.
 
-Or by hand: download the archive for your machine from Releases, check it against `SHA256SUMS`, unpack it and run `./cairn install`. Either way cairn ends up in `~/.local/bin`, with `cairn.el` for Emacs beside its data, and the download can be deleted.
+Or by hand: download the archive for your machine from Releases, check it against `SHA256SUMS`, unpack it and run `./cairn install`. The download can be deleted afterwards.
 
 To remove it: `cairn uninstall`. Your settings and data are kept.
 
 ### Build from source
 
-Needs Go and access to the private pmin libraries:
+Most people do not need this; the install command above is enough. Building needs Go and access to the private pmin libraries, which are not public:
 
 ```
 git clone https://github.com/CurtisD4q/cairn
