@@ -7,7 +7,6 @@ import (
 	"os"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/CurtisD4q/pmin-kit"
 	"github.com/CurtisD4q/pmin-kit/runner"
@@ -256,8 +255,6 @@ func clip(s string, n int) string {
 	}
 	return s
 }
-
-func stamp(t time.Time) string { return t.Local().Format("15:04:05") }
 
 func firstLine(s string) string {
 	s = strings.TrimSpace(s)
