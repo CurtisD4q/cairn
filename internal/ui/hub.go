@@ -1,10 +1,13 @@
 package ui
 
 import (
+	"time"
+
 	txt "github.com/CurtisD4q/pmin-base/text"
 
 	"github.com/CurtisD4q/pmin-kit"
 
+	"github.com/CurtisD4q/cairn/internal/store"
 	"github.com/CurtisD4q/cairn/internal/tools"
 )
 
@@ -113,19 +116,48 @@ func (a *App) recentRuns() []mint.Section {
 	if len(es) == 0 {
 		return []mint.Section{{Rows: []mint.Row{mint.Label(mint.StyleCaption, "Nothing run yet."), mint.Label(mint.StyleCaption, "Pick a tool to begin.")}}}
 	}
-	var rows []mint.Row
-	for i := len(es) - 1; i >= 0 && len(rows) < 8; i-- {
-		e := es[i]
+	var recent []store.Entry
+	for i := len(es) - 1; i >= 0 && len(recent) < 8; i-- {
+		recent = append(recent, es[i])
+	}
+	cells := make([][]string, len(recent))
+	for i, e := range recent {
 		who := e.Target
 		if who == "" {
 			who = "this computer"
 		}
-		rows = append(rows, mint.Value(mint.ValueOpts{
-			Label: stamp(e.Time) + "  " + e.Tool, Get: func() string { return who },
-			OnActivate: func(c *mint.Ctx) { c.Push(a.logScreen()) },
-		}))
+		cells[i] = []string{when(e.Time, time.Now()), e.Tool, who}
 	}
-	return []mint.Section{{Rows: rows}}
+	return []mint.Section{{Rows: []mint.Row{mint.Table(mint.TableOpts{
+		ID:       "recent",
+		Headers:  []string{"When", "Tool", "Target"},
+		Rows:     cells,
+		Columns:  []mint.Column{{Dim: true}, {}, {Tint: true}},
+		Mark:     func(i int, _ []string) mint.Mark { return runMark(recent[i]) },
+		OnSelect: func(c *mint.Ctx, _ int, _ []string) { c.Push(a.logScreen()) },
+	})}}}
+}
+
+// when is a run's time in as few cells as reads clearly: the time today,
+// the day before that.
+func when(t, now time.Time) string {
+	t, now = t.Local(), now.Local()
+	if t.Year() == now.Year() && t.YearDay() == now.YearDay() {
+		return t.Format("15:04")
+	}
+	return t.Format("2 Jan")
+}
+
+// runMark is the mark beside a run: ✓ finished, ! failed or refused, ●
+// run past the scope by choice.
+func runMark(e store.Entry) mint.Mark {
+	switch {
+	case e.Error != "" || e.Exit != 0:
+		return mint.Mark{Glyph: "!", Kind: mint.BadgeError}
+	case e.Override:
+		return mint.Mark{Glyph: "●", Kind: mint.BadgeWarn}
+	}
+	return mint.Mark{Glyph: "✓", Kind: mint.BadgeOK}
 }
 
 func (a *App) switchCase(c *mint.Ctx) {
