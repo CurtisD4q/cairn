@@ -244,8 +244,8 @@ func (a *App) Run() {
 		Items:   a.Items(),
 		Status:  a.status,
 		QuickStart: []string{
-			"Open the Workbench, then set a scope in Case before you test",
-			"anything that is not your own machine.",
+			"Pick Workbench from the menu. Set a scope in Case before you",
+			"test anything that is not your own machine.",
 			"",
 			"Pick a tool in Tools; what it finds is kept in Recent.",
 			"",

@@ -36,9 +36,6 @@ func main() {
 		fmt.Fprintln(os.Stderr, "cairn:", err)
 		os.Exit(1)
 	}
-	// With no arguments, start on the workbench rather than the menu.
-	if len(os.Args) == 1 {
-		os.Args = append(os.Args, "--screen", "Workbench")
-	}
+	// With no arguments cairn opens on its launch menu.
 	a.Run()
 }
