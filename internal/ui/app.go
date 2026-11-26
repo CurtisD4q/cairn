@@ -243,6 +243,15 @@ func (a *App) Run() {
 		Version: Version,
 		Items:   a.Items(),
 		Status:  a.status,
+		QuickStart: []string{
+			"Open the Workbench, then set a scope in Case before you test",
+			"anything that is not your own machine.",
+			"",
+			"Pick a tool in Tools; what it finds is kept in Recent.",
+			"",
+			"Tab or 1-3 moves between panes · / filters a list",
+			"? lists every key · q quits",
+		},
 	}
 	app.Run()
 	a.closeInside() // wipe secrets typed into programs opened here
