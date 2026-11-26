@@ -8,8 +8,8 @@ github.com/CurtisD4q/pmin-contracts v0.0.0-20261123132359-dddca78a62af h1:UnSkky
 github.com/CurtisD4q/pmin-contracts v0.0.0-20261123132359-dddca78a62af/go.mod h1:V51I9TvLKOmEvbI8eG6lxnqBSquWMPPUvjinqnHyB90=
 github.com/CurtisD4q/pmin-jobhealth v0.0.0-20261122204344-b571a5bfd18b h1:HqyqmYz0fhep4Zcl4+PlJ4tLpEl2jchxC1m0f2b3cJw=
 github.com/CurtisD4q/pmin-jobhealth v0.0.0-20261122204344-b571a5bfd18b/go.mod h1:ey9H7uxt91jpFomnRH79Rk5kN/3vUUcvqXvvkZymH6I=
-github.com/CurtisD4q/pmin-kit v0.0.0-20261126162400-b308657edd25 h1:XG19ztsEs3Ui4VDRi839ONa2rLv1bF6TxTCnMEzJKXs=
-github.com/CurtisD4q/pmin-kit v0.0.0-20261126162400-b308657edd25/go.mod h1:6BPRoanXAo3DBEFY/wONYpItXF5I7s8v0+pqPB1ViN0=
+github.com/CurtisD4q/pmin-kit v0.0.0-20261126171245-e96f5d057c01 h1:F/bCiwIHBllvqGcHvgQddEL7KU9nWjII+be9vs2gpz4=
+github.com/CurtisD4q/pmin-kit v0.0.0-20261126171245-e96f5d057c01/go.mod h1:6BPRoanXAo3DBEFY/wONYpItXF5I7s8v0+pqPB1ViN0=
 github.com/CurtisD4q/pmin-lookout v0.0.0-20261122205409-aad5a9c67fb3 h1:7xHmAuuF9msokYxUdLzsiwO13iXt9fdPdE5O2G/20Zk=
 github.com/CurtisD4q/pmin-lookout v0.0.0-20261122205409-aad5a9c67fb3/go.mod h1:X7hdjGzFxtqE9FgRoeHTcWzxBFh2dkbQAFqNRllIFfM=
 github.com/CurtisD4q/pmin-netfilter v0.0.0-20261123013512-d327dabcc23e h1:PQmwikgtxlC1I1RlRkddwvC+4/WPur1e7PZnComCi3g=
