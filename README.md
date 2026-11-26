@@ -109,7 +109,7 @@ After `make install` the cloned folder can be deleted. To clone and fetch the li
 
 Open **Case** and add your scope, for example `10.0.0.0/24` or `example.com` (a domain covers its subdomains; `*.lab.test` covers only the subdomains). On the **Workbench**, type a target, pick a tool, and choose **Run**. In the results, select a row to send it on. **How this works** in the app is a one-page guide.
 
-Keys: arrows move, Enter opens or changes, Tab moves between panes, `b` goes back, `q` quits; the mouse works. `MINT_KEYS=emacs` or `vim` adds those key styles. Colours follow the Mint theme screen, or `MINT_PALETTE`.
+Keys: arrows move, Enter opens or changes, Tab moves between panes, `m` moves into the pages down the left (Enter opens one), `b` goes back, `q` quits; the mouse works. Running a tool against another machine asks first, showing the exact command. `MINT_KEYS=emacs` or `vim` adds those key styles. Colours follow the Mint theme screen, or `MINT_PALETTE`.
 
 ## In Emacs
 

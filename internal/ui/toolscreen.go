@@ -83,6 +83,12 @@ func (a *App) toolScreen(t tools.Tool, in tools.Input) *mint.Screen {
 		Icon: "▸", Title: t.Title, TopTitle: "Run", Hints: toolHints, TopWidth: 1.1, Weight: 0.5, SectionSpacing: 1, Boxed: true,
 		Poll:   func(*mint.Screen) bool { return s.poll() },
 		Status: s.badges,
+		Context: func() string {
+			if s.target == "" {
+				return a.context()
+			}
+			return a.context() + " · target " + s.target
+		},
 	}
 	about := &mint.Pane{Title: "In plain words", Beside: true, Width: 1, Weight: 0.5}
 	results := &mint.Pane{Title: "What came back", Weight: 0.5}
@@ -197,7 +203,7 @@ func (s *session) runSections() []mint.Section {
 			mint.Value(mint.ValueOpts{Label: "Running", Get: func() string { return fmt.Sprintf("%ds", int(s.job.Elapsed().Seconds())) }}),
 			mint.Action(mint.ActionOpts{Label: "■ Stop", Hint: "ends it now", OnActivate: func(c *mint.Ctx) { s.job.Stop(); c.Toast("Stopping…") }}))
 	} else {
-		rows = append(rows, mint.Action(mint.ActionOpts{Label: "▶ Run", Hint: "⏎", OnActivate: s.start}))
+		rows = append(rows, mint.Action(mint.ActionOpts{Label: "▶ Run", Hint: "⏎", OnActivate: s.start, Does: s.does}))
 	}
 	return []mint.Section{{Rows: rows}}
 }
@@ -379,6 +385,15 @@ func gateFor(checked bool, st scope.Status) gate {
 	return askYesNo
 }
 
+// does is what Enter on Run does, for the pane's header.
+func (s *session) does() string {
+	in, err := s.input()
+	if err != nil {
+		return "needs " + takesText(s.t)
+	}
+	return "runs " + s.t.Command(in)
+}
+
 // start checks scope, asks if it must, and runs the tool.
 func (s *session) start(c *mint.Ctx) {
 	if s.running() {
@@ -392,17 +407,24 @@ func (s *session) start(c *mint.Ctx) {
 	}
 	v, checked := s.verdictFor(in)
 	s.override = false
+	cmd := s.t.Command(in)
+	// Anything that reaches another machine asks first, showing the
+	// command; one question, however the scope came out.
 	switch gateFor(checked, v.Status) {
 	case askYesNo:
-		if !c.Confirm("No scope set", "This sends traffic to "+in.Target.Text+", and you have not said what you are allowed to test.\n\ncairn will log this run. Continue?") {
+		if !c.Confirm("No scope set", cmd+"\n\nThis sends traffic to "+in.Target.Text+", and you have not said what you are allowed to test.\n\ncairn will log this run. Continue?") {
 			return
 		}
 		s.override = true
 	case askToType:
-		if !c.TypeToConfirm("Outside your scope", v.Why+"\n\nIf you are sure you may test it, type the target to go ahead. cairn will log that you did.", in.Target.Text) {
+		if !c.TypeToConfirm("Outside your scope", cmd+"\n\n"+v.Why+"\n\nIf you are sure you may test it, type the target to go ahead. cairn will log that you did.", in.Target.Text) {
 			return
 		}
 		s.override = true
+	default:
+		if checked && !c.Confirm("Run this?", cmd+"\n\n✓ "+scopeText(v)+"\n\nIt reaches "+in.Target.Text+", and the run is written to the audit log.") {
+			return
+		}
 	}
 	argv := s.t.Argv(in)
 	s.in, s.argv, s.verdict = in, argv, v

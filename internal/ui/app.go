@@ -234,6 +234,19 @@ func (a *App) status() []mint.Badge {
 	return b
 }
 
+// context is the line after the trail at the top of every screen: the case
+// and what it may test.
+func (a *App) context() string {
+	name, _, _, rules, _ := a.snapshot()
+	switch {
+	case len(rules) == 0:
+		return "case " + name + " · no scope set"
+	case len(rules) > 3:
+		return fmt.Sprintf("case %s · scope %s and %d more", name, strings.Join(rules[:3], ", "), len(rules)-3)
+	}
+	return "case " + name + " · scope " + strings.Join(rules, ", ")
+}
+
 // Run opens the interface and returns when the person quits.
 func (a *App) Run() {
 	UsePalette()
@@ -243,12 +256,14 @@ func (a *App) Run() {
 		Version: Version,
 		Items:   a.Items(),
 		Status:  a.status,
+		Context: a.context,
 		QuickStart: []string{
 			"Pick Workbench from the menu. Set a scope in Case before you",
 			"test anything that is not your own machine.",
 			"",
 			"Pick a tool in Tools; what it finds is kept in Recent.",
 			"",
+			"m shows every page down the left; Enter opens one.",
 			"Tab or 1-3 moves between panes · / filters a list",
 			"? lists every key · q quits",
 		},
