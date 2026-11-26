@@ -117,10 +117,10 @@ func judgeFailedLogins(r action.Result, _ lookout.Params) lookout.Finding {
 		return lookout.Finding{Status: lookout.OK, Summary: "No failed logins in the last day."}
 	case n < 50:
 		return lookout.Finding{Status: lookout.Warn, Summary: fmt.Sprintf("%d failed login%s in the last day.", n, txt.S(n)),
-			Next: "Log hunt (Failed logins by address) to see who is trying."}
+			Next: "Threats (Failed logins by address) to see who is trying."}
 	}
 	return lookout.Finding{Status: lookout.Bad, Summary: fmt.Sprintf("%d failed logins in the last day: someone is guessing passwords.", n),
-		Next: "Log hunt (Failed logins by address) to see who; then, in Hardening, turn off password logins and allow ssh only from where you need it."}
+		Next: "Threats (Failed logins by address) to see who; then, in Hardening, turn off password logins and allow ssh only from where you need it."}
 }
 
 func judgeRootAccounts(r action.Result, _ lookout.Params) lookout.Finding {

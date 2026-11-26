@@ -100,7 +100,7 @@ func (a *App) packItems() []mint.HomeItem {
 	harden := wardenui.Entries(wardenui.Options{Exec: p.exec, Record: caseRecorder{a}, Program: p.program, GuardDir: filepath.Join(p.home, "guards")})
 	out := []mint.HomeItem{
 		{Icon: "?", Label: "What's wrong", Desc: "Has someone got in? What can others reach? Start from what you notice", Open: look[1].Open},
-		{Icon: "⌕", Label: "Log hunt", Desc: "Failed logins, who logged in, administrator commands: step by step", Open: a.huntScreen},
+		{Icon: "⌕", Label: "Threats", Desc: "Failed logins, who logged in, administrator commands: step by step", Open: a.huntScreen},
 		{Icon: "◉", Label: "Health", Desc: "How this machine is doing, kept up to date", Open: look[0].Open},
 		{Icon: "⇄", Label: "Machines", Desc: "The machines this work touches: check, connect, tunnel", Open: bridges[0].Open},
 		{Icon: "◎", Label: "Keys", Desc: "Your ssh keys and fingerprints", Open: bridges[1].Open},
@@ -122,7 +122,7 @@ func (a *App) huntScreen() *mint.Screen {
 	rows = append(rows, mint.Action(mint.ActionOpts{ID: "hunt-new", Label: "Start from nothing", OnActivate: func(c *mint.Ctx) {
 		c.Push(a.huntBuilder(conduit.Chain{}))
 	}}))
-	return &mint.Screen{Icon: "⌕", Title: "Log hunt", Sections: []mint.Section{{Rows: rows}}}
+	return &mint.Screen{Icon: "⌕", Title: "Threats", Sections: []mint.Section{{Rows: rows}}}
 }
 
 func (a *App) huntBuilder(ch conduit.Chain) *mint.Screen {
