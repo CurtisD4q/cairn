@@ -104,7 +104,7 @@ func (a *App) packItems() []mint.HomeItem {
 		{Icon: "◉", Label: "Health", Desc: "How this machine is doing, kept up to date", Open: look[0].Open},
 		{Icon: "⇄", Label: "Machines", Desc: "The machines this work touches: check, connect, tunnel", Open: bridges[0].Open},
 		{Icon: "◎", Label: "Keys", Desc: "Your ssh keys and fingerprints", Open: bridges[1].Open},
-		{Icon: "⛨", Label: "Harden", Desc: "Accounts, permissions, firewall and ssh, with a lockout guard", Open: harden[0].Open},
+		{Icon: "⛨", Label: "Hardening", Desc: "Accounts, permissions, firewall and ssh, with a lockout guard", Open: harden[0].Open},
 	}
 	return out
 }

@@ -7,7 +7,7 @@ import (
 	warden "github.com/CurtisD4q/pmin-warden"
 )
 
-// cairn plugs in the engines its packs need: without them Harden would
+// cairn plugs in the engines its packs need: without them Hardening would
 // have no firewall screens and Machines no serial consoles.
 func TestPlug(t *testing.T) {
 	warden.Net, bridge.Serial = nil, nil

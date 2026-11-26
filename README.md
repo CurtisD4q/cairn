@@ -29,7 +29,7 @@ Built with [pmin](https://github.com/CurtisD4q/pmin): the screens are [pmin-kit]
 - **Look for signs of intrusion.** *What's wrong* starts from what you notice ("I think someone got in", "What can others reach here?") and runs read-only checks: failed logins, accounts with root's power, login keys changed lately, administrator commands, what is open to every network.
 - **Log hunt.** Ready-made hunts (failed logins by address, who logged in, administrator commands) narrow the logs down step by step, showing what each step keeps and the command it makes.
 - **Keep the machines.** Save machines from results, check their host keys, connect with ssh, open tunnels.
-- **Harden.** Accounts, permissions, the firewall and ssh settings, read-only until you choose Apply; a change that could cut off your own connection is refused or put back on its own unless you confirm you can still get in.
+- **Hardening.** Accounts, permissions, the firewall and ssh settings, read-only until you choose Apply; a change that could cut off your own connection is refused or put back on its own unless you confirm you can still get in.
 - **Any program, in the Mint layout.** *Programs* opens any command-line program inside cairn: its options, the exact command, Run and what came back, in panes. Programs that reach other machines are held to the case's scope on every run, and every run goes in the audit log.
 - **Plain words, exact command.** Everything explains itself, and the exact command is always shown, so you can see and learn what is being run.
 - **One audit log and a report.** Everything done in the case, by every part of cairn, is logged with its time, target and whether it was in scope or agreed to. Save the case as a Markdown report.
@@ -43,7 +43,7 @@ cairn is a program built with pmin (tier `example` in `pmin.json`). It uses the 
 | What's wrong, Health | [pmin-lookout](https://github.com/CurtisD4q/pmin-lookout) | Five security checks and two symptoms, as data |
 | Log hunt | [pmin-conduit](https://github.com/CurtisD4q/pmin-conduit) | The ssh and sudo logs as sources, a "Pick out addresses" step, and three ready-made hunts |
 | Machines, Keys | [pmin-bridge](https://github.com/CurtisD4q/pmin-bridge) | Saving a result as a machine, checked against the case's scope |
-| Harden | [pmin-warden](https://github.com/CurtisD4q/pmin-warden) | Its lockout guard, served by cairn itself |
+| Hardening | [pmin-warden](https://github.com/CurtisD4q/pmin-warden) | Its lockout guard, served by cairn itself |
 | Programs | [pmin-wrap](https://github.com/CurtisD4q/pmin-wrap) | Any program in the Mint layout, held to the case's scope |
 
 The modules never import an engine, so cairn plugs them in itself (`plug` in `internal/ui/packs.go`): Warden reads and changes the firewall with [pmin-netfilter](https://github.com/CurtisD4q/pmin-netfilter), and Bridge opens serial consoles with [pmin-serial](https://github.com/CurtisD4q/pmin-serial).
