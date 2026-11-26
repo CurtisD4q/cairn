@@ -21,7 +21,7 @@ func main() {
 		After: "For Emacs, add to your init file: (load \"{data}/cairn.el\")"}, os.Args[1:], os.Stdout, os.Stderr); ok {
 		os.Exit(code)
 	}
-	// A guarded change (Harden this machine) runs cairn again in the
+	// A guarded change (Harden) runs cairn again in the
 	// background to put things back if the change cuts the person off.
 	if warden.HandleArgs(os.Args[1:]) {
 		return

@@ -117,10 +117,10 @@ func judgeFailedLogins(r action.Result, _ lookout.Params) lookout.Finding {
 		return lookout.Finding{Status: lookout.OK, Summary: "No failed logins in the last day."}
 	case n < 50:
 		return lookout.Finding{Status: lookout.Warn, Summary: fmt.Sprintf("%d failed login%s in the last day.", n, txt.S(n)),
-			Next: "Hunt in the logs (Failed logins by address) to see who is trying."}
+			Next: "Log hunt (Failed logins by address) to see who is trying."}
 	}
 	return lookout.Finding{Status: lookout.Bad, Summary: fmt.Sprintf("%d failed logins in the last day: someone is guessing passwords.", n),
-		Next: "Hunt in the logs (Failed logins by address) to see who; then, in Harden this machine, turn off password logins and allow ssh only from where you need it."}
+		Next: "Log hunt (Failed logins by address) to see who; then, in Harden, turn off password logins and allow ssh only from where you need it."}
 }
 
 func judgeRootAccounts(r action.Result, _ lookout.Params) lookout.Finding {
@@ -137,7 +137,7 @@ func judgeRootAccounts(r action.Result, _ lookout.Params) lookout.Finding {
 		return lookout.Finding{Status: lookout.OK, Summary: "Only root has full power."}
 	}
 	return lookout.Finding{Status: lookout.Bad, Summary: "These accounts have root's power: " + strings.Join(others, ", ") + ".", Details: others,
-		Next: "An extra account with user number 0 is a common back door. Find out who made it; if no one can say, lock it in Harden this machine."}
+		Next: "An extra account with user number 0 is a common back door. Find out who made it; if no one can say, lock it in Harden."}
 }
 
 func judgeNewKeys(r action.Result, _ lookout.Params) lookout.Finding {
@@ -203,7 +203,7 @@ func judgeOpenToAll(r action.Result, _ lookout.Params) lookout.Finding {
 	for _, o := range open {
 		if !strings.HasSuffix(o, ":22") {
 			f.Status = lookout.Warn
-			f.Next = "Each of these can be reached by anything that can reach this machine. Close what is not needed, or allow it only from where it is used (Harden this machine, Firewall)."
+			f.Next = "Each of these can be reached by anything that can reach this machine. Close what is not needed, or allow it only from where it is used (Harden, Firewall)."
 		}
 	}
 	return f

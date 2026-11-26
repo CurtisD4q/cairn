@@ -221,7 +221,7 @@ func (a *App) Items() []mint.HomeItem {
 	items = append(items, a.packItems()...)
 	return append(items,
 		mint.HomeItem{Icon: "≡", Label: "Audit log", Desc: "Everything done in this case, by every part of cairn", Open: a.logScreen},
-		mint.HomeItem{Icon: "i", Label: "How this works", Desc: "A short guide, in plain words", Open: a.guide},
+		mint.HomeItem{Icon: "i", Label: "Guide", Desc: "A short guide, in plain words", Open: a.guide},
 	)
 }
 

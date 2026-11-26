@@ -464,7 +464,7 @@ func TestHomeHasTheSiblings(t *testing.T) {
 	for _, it := range a.Items() {
 		labels = append(labels, it.Label)
 	}
-	want := "Workbench,Case,Programs,Something's wrong,Hunt in the logs,Health,Machines,Your keys,Harden this machine,Audit log,How this works"
+	want := "Workbench,Case,Programs,What's wrong,Log hunt,Health,Machines,Keys,Harden,Audit log,Guide"
 	if strings.Join(labels, ",") != want {
 		t.Fatal(strings.Join(labels, ","))
 	}
