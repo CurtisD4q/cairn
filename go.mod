@@ -6,7 +6,7 @@ require (
 	github.com/CurtisD4q/pmin-base v0.0.0-20261123203826-23ade10c5ef5
 	github.com/CurtisD4q/pmin-bridge v0.0.0-20261123132806-1f7d03b78c72
 	github.com/CurtisD4q/pmin-conduit v0.0.0-20261122210122-5097b53db771
-	github.com/CurtisD4q/pmin-kit v0.0.0-20261126185010-b1a34586cf69
+	github.com/CurtisD4q/pmin-kit v0.0.0-20261126200122-da4d4d2e76da
 	github.com/CurtisD4q/pmin-lookout v0.0.0-20261122205409-aad5a9c67fb3
 	github.com/CurtisD4q/pmin-netfilter v0.0.0-20261123013512-d327dabcc23e
 	github.com/CurtisD4q/pmin-serial v0.0.0-20261123013707-b9dd6103a310
